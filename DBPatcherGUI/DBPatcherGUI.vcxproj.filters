@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="BuilderWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="InstallerWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="LoginWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="BuilderHandler.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BuilderWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DependencyListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="InstallerHandler.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="InstallerWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LoginWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LogOutputDevice.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MainWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ObjectNameCompleter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="PatchListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DatabaseProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PatchList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PatchListElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images\addDatabase.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\downArrow.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\hammer.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\removeFile.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\upArrow.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\addFile.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\install.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\test.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\removeDatabase.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\error.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\unchecked.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\function.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\sequence.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\table.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\view.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\checked.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\index.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\script.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\labels\trigger.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\folder.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\box.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\close.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\clearList.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\images\mainIcon.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="PatcherResources.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BuilderHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuilderWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InstallerHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InstallerWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogOutputDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectNameCompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchListElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
