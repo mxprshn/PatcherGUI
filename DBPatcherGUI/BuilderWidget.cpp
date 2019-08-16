@@ -75,7 +75,7 @@ bool BuilderWidget::checkConnection()
 	if (!DatabaseProvider::isConnected())
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Database error", "Not connected to database."
+		QMessageBox::warning(this, "Database error", "No connection to database"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		emit connectionRequested();
 		return false;
@@ -106,7 +106,7 @@ void BuilderWidget::onAddButtonClicked()
 	if (nameInput.isEmpty())
 	{
 		QMessageBox::information(this, "Item not added", "Please, enter "
-			+ ui->nameEdit->placeholderText().toLower() + "."
+			+ ui->nameEdit->placeholderText().toLower()
 			, QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
@@ -116,7 +116,7 @@ void BuilderWidget::onAddButtonClicked()
 		QApplication::beep();
 		QMessageBox::warning(this, "Item not added"
 			, ui->typeComboBox->currentText().replace(0, 1, ui->typeComboBox->currentText()[0].toUpper())
-			+ " " + ui->nameEdit->text() + " already exists in patch list."
+			+ " " + ui->nameEdit->text() + " already exists in patch list"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
@@ -168,7 +168,7 @@ void BuilderWidget::onAddButtonClicked()
 		QApplication::beep();
 		QMessageBox::warning(this, "Item not added"
 			, ui->typeComboBox->currentText().replace(0, 1, ui->typeComboBox->currentText()[0].toUpper())
-				+ " " + nameInput + " does not exist in current schema."
+				+ " " + nameInput + " does not exist in current schema"
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
@@ -220,7 +220,7 @@ void BuilderWidget::addScripts(const QString &input)
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Some scripts not added"
-			, "Some script files already exist in patch list, not found or are not SQL script files (*.sql) and were not added."
+			, "Some files were not added because they already exist in the patch list, not found or not a SQL-script (*.sql)"
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 	else
@@ -235,7 +235,7 @@ void BuilderWidget::addScripts(const QString &input)
 void BuilderWidget::initScriptInput()
 {
 	ui->schemaComboBox->setDisabled(true);
-	ui->nameEdit->setPlaceholderText("SQL script file paths (leave empty to open in explorer)");
+	ui->nameEdit->setPlaceholderText("SQL script file path (leave empty to open in explorer)");
 	ui->nameLabel->setText("Path");
 }
 
@@ -274,7 +274,7 @@ void BuilderWidget::onBuildButtonClicked()
 
 	if (ui->patchPathEdit->text().isEmpty())
 	{
-		QMessageBox::information(this, "Build error", "Please, choose target directory."
+		QMessageBox::information(this, "Build error", "Please, choose target directory"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		onExplorerButtonClicked();
 		return;
@@ -286,14 +286,13 @@ void BuilderWidget::onBuildButtonClicked()
 	if (!patchDir.exists())
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Build error", "Target directory does not exist."
+		QMessageBox::warning(this, "Build error", "Target directory does not exist"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
 
-	const auto dialogResult = QMessageBox::information(this, "Patch list order information"
-		, "For successful further installation of the built script it is recommended to keep the following"
-		" order of patch list:\n\n"
+	const auto dialogResult = QMessageBox::information(this, "Scripts installation order in the patch"
+		, "For successful patch installation it is recommended to save the following order in a patch list:\n\n"
 		"- sequences\n"
 		"- tables\n"
 		"- views\n"
@@ -310,14 +309,14 @@ void BuilderWidget::onBuildButtonClicked()
 		{
 			QApplication::beep();
 			QMessageBox::information(this, "Build completed"
-				, "Build completed. See log for details."
+				, "Build completed. See log for details"
 				, QMessageBox::Ok, QMessageBox::Ok);
 		}
 		else
 		{
 			QApplication::beep();
 			QMessageBox::warning(this, "Build error"
-				, "Error occured. See log for details."
+				, "Error occured. See log for details"
 				, QMessageBox::Ok, QMessageBox::Ok);			
 		}
 	}
@@ -402,7 +401,7 @@ void BuilderWidget::onCurrentTypeChanged(int type)
 	if (type == ObjectTypes::function)
 	{
 		ui->nameEdit->setPlaceholderText("Function signature (e.g. function(arg_1,arg_2))");
-		ui->nameLabel->setText("Signature (Invalid, function may not be found))");
+		ui->nameLabel->setText("Signature (Invalid. Function may not be found in database)");
 		emit ui->nameEdit->textChanged(ui->nameEdit->text());
 	}
 
@@ -438,7 +437,7 @@ void BuilderWidget::onNameTextChanged(const QString &input)
 		return;
 	}
 
-	ui->nameLabel->setText(QRegExp("[^,\\(\\) ]+\\((([^,\\(\\) ]+,)*([^, \\(\\)]+)+)?\\)").exactMatch(input) ? "Signature (Valid)" : "Signature (Invalid, function may not be found)");
+	ui->nameLabel->setText(QRegExp("[^,\\(\\) ]+\\((([^,\\(\\) ]+,)*([^, \\(\\)]+)+)?\\)").exactMatch(input) ? "Signature (Valid)" : "Signature (Invalid. Function may not be found in database)");
 }
 
 // Handles amount of build list elements change

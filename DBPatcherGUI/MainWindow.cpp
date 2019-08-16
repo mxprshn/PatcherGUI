@@ -52,7 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
 	});
 
 	ui->mainToolBar->addAction(connectAction);
-	ui->mainToolBar->addAction(disconnectAction);
 	ui->mainToolBar->addWidget(databaseInformation);
 
 	connect(loginWindow, SIGNAL(connectButtonClicked()), this, SLOT(onDialogConnectButtonClicked()));
@@ -104,7 +103,7 @@ void MainWindow::onDialogConnectButtonClicked()
 		ui->logTextEdit->append(errorMessage);
 		QApplication::beep();
 		QMessageBox::warning(this, "Connection error"
-				, "Connection error. See log for details.", QMessageBox::Ok, QMessageBox::Ok);
+				, "Connection error. See log for details", QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
 
@@ -118,7 +117,7 @@ void MainWindow::onConnectionRequested()
 // Launches database disconnection and sets appropriate interface elements
 void MainWindow::onDisconnectButtonClicked()
 {
-	const auto dialogResult = QMessageBox::question(this, "Remove item", "Are you sure to disconnect from database?"
+	const auto dialogResult = QMessageBox::question(this, "Disconnect from the database", "Do you want to disconnect from the database?"
 		, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
 
 	if (dialogResult == QMessageBox::Cancel)
@@ -133,6 +132,7 @@ void MainWindow::onDisconnectButtonClicked()
 	disconnectAction->setDisabled(true);
 }
 
+// Reads saved settings for the application
 void MainWindow::readSettings()
 {
 	BuilderHandler::setTemplatesFile(settings.value("templates", "Templates.ini").toString());

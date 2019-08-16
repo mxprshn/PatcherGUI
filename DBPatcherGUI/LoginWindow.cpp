@@ -62,4 +62,5 @@ void LoginWindow::clear()
 	ui->databaseLineEdit->clear();
 	ui->usernameLineEdit->clear();
 	ui->passwordLineEdit->clear();
+	ui->hostLineEdit->setFocus();
 }

@@ -46,7 +46,7 @@ bool InstallerWidget::checkConnection()
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Database error"
-			, "Not connected to database."
+			, "No connection to database"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		emit connectionRequested();
 		return false;
@@ -154,7 +154,7 @@ void InstallerWidget::onOpenButtonClicked()
 		if (!patchDir.exists())
 		{
 			QApplication::beep();
-			QMessageBox::warning(this, "Open error", "Patch directory does not exist."
+			QMessageBox::warning(this, "Open error", "Patch directory does not exist"
 				, QMessageBox::Ok, QMessageBox::Ok);
 			clearCurrentPatch();
 			return;
@@ -164,7 +164,7 @@ void InstallerWidget::onOpenButtonClicked()
 	if (!patchDir.exists(FileHandler::getObjectListName()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", FileHandler::getObjectListName() + " does not exist in patch directory."
+		QMessageBox::warning(this, "Open error", FileHandler::getObjectListName() + " does not exist in the patch directory"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		clearCurrentPatch();
 		return;
@@ -173,7 +173,7 @@ void InstallerWidget::onOpenButtonClicked()
 	if (!patchDir.exists(FileHandler::getDependencyListName()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", FileHandler::getDependencyListName() + " does not exist in patch directory."
+		QMessageBox::warning(this, "Open error", FileHandler::getDependencyListName() + " does not exist in the patch directory"
 			, QMessageBox::Ok, QMessageBox::Ok);
 		clearCurrentPatch();
 		return;
@@ -182,7 +182,7 @@ void InstallerWidget::onOpenButtonClicked()
 	if (!initPatchList(patchDir.absolutePath()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::getObjectListName() + " ."
+		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::getObjectListName()
 			, QMessageBox::Ok, QMessageBox::Ok);
 		clearCurrentPatch();
 		return;
@@ -191,7 +191,7 @@ void InstallerWidget::onOpenButtonClicked()
 	if (!initDependencyList(patchDir.absolutePath()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::getDependencyListName() + " ."
+		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::getDependencyListName()
 			, QMessageBox::Ok, QMessageBox::Ok);
 		clearCurrentPatch();
 		return;
@@ -199,7 +199,7 @@ void InstallerWidget::onOpenButtonClicked()
 
 	if (ui->dependencyListWidget->topLevelItemCount() == 0)
 	{
-		ui->installInfoLabel->setText("Patch has not any dependencies.");
+		ui->installInfoLabel->setText("The patch has no dependencies");
 		ui->installButton->setEnabled(true);
 	}
 	else
@@ -233,15 +233,15 @@ void InstallerWidget::onCheckButtonClicked()
 
 		if (!ui->dependencyListWidget->getAreAllSatisfied())
 		{
-			QMessageBox::warning(this, "Check completed"
-				, "Check completed. Not all dependencies are satisfied. If you want to install patch anyway, "
-				"mark all not satisfied dependencies manually in the list."
+			QMessageBox::warning(this, "Verification completed"
+				, "Verification completed. Not all dependencies are found. If you want to continue the installation, "
+				"confirm all dependencies manually in the list"
 				, QMessageBox::Ok, QMessageBox::Ok);
 		}
 		else
 		{
-			QMessageBox::information(this, "Check completed"
-				, "Check completed. All dependencies are satisfied. Patch may be installed safely (or almost safely)."
+			QMessageBox::information(this, "Verification completed"
+				, "Verification completed. All dependencies found. The patch can be installed safely ... almost safely :)"
 				, QMessageBox::Ok, QMessageBox::Ok);
 		}
 	}
@@ -249,7 +249,7 @@ void InstallerWidget::onCheckButtonClicked()
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Check error"
-			, "Error occured. See log for details."
+			, "Error occured. See log for details"
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
@@ -267,8 +267,8 @@ void InstallerWidget::onInstallButtonClicked()
 	{
 		QApplication::beep();
 		const auto dialogResult = QMessageBox::warning(this, "Unsafe installation"
-			,"WARNING: Not all dependencies are satisfied. Installation may cause database errors. "
-			"Are you sure to continue?"
+			,"WARNING: not all dependencies are found. Installation may cause database errors."
+			" Are you sure you want to continue?"
 			, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
 
 		if (dialogResult == QMessageBox::Cancel)
@@ -283,14 +283,14 @@ void InstallerWidget::onInstallButtonClicked()
 	{
 		QApplication::beep();
 		QMessageBox::information(this, "Installation completed"
-			, "Installation completed. See log for details."
+			, "Installation completed. See log for details"
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 	else
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Installation error"
-			, "Error occured. See log for details."
+			, "Error occured. See log for details"
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
@@ -303,18 +303,18 @@ void InstallerWidget::onItemCheckChanged()
 	{
 		if (!ui->dependencyListWidget->getAreAllSatisfied())
 		{
-			ui->installInfoLabel->setText("WARNING: Some dependencies are not satisfied!");
+			ui->installInfoLabel->setText("WARNING: Some dependencies are not found!");
 		}
 		else
 		{
-			ui->installInfoLabel->setText("All dependencies are satisfied.");
+			ui->installInfoLabel->setText("All dependencies are found");
 		}
 		
 		ui->installButton->setEnabled(true);
 	}
 	else
 	{
-		ui->installInfoLabel->setText("To enable installation, mark all dependencies manually.");
+		ui->installInfoLabel->setText("To enable installation, confirm all dependencies manually in the list");
 		ui->installButton->setEnabled(false);
 	}
 }
