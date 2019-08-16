@@ -303,7 +303,7 @@ void InstallerWidget::onItemCheckChanged()
 	{
 		if (!ui->dependencyListWidget->getAreAllSatisfied())
 		{
-			ui->installInfoLabel->setText("WARNING: Some dependencies are not found!");
+			ui->installInfoLabel->setText("Some dependencies are not found!");
 		}
 		else
 		{
@@ -314,7 +314,7 @@ void InstallerWidget::onItemCheckChanged()
 	}
 	else
 	{
-		ui->installInfoLabel->setText("To enable installation, confirm all dependencies manually in the list");
+		ui->installInfoLabel->setText("Confirm all dependencies manually in the list");
 		ui->installButton->setEnabled(false);
 	}
 }
