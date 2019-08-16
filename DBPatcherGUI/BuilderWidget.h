@@ -25,7 +25,7 @@ private:
 	Ui::BuilderWidget *ui;
 	// Pointer to the schema list model, which can be filled with query execution
 	QSqlQueryModel *schemaListModel;
-	// Completer object which provides autocompletion of object name user's input 
+	// Completer object which provides autocompletion of object name user's input
 	ObjectNameCompleter *nameCompleter;
 	void addScripts(const QString &input);
 	bool checkConnection();

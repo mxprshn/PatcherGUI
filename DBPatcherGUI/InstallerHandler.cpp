@@ -18,8 +18,7 @@ void InstallerHandler::setOutputDevice(QIODevice &newDevice)
 bool InstallerHandler::installPatch(const QString &database, const QString &user, const QString &password,
 	const QString &server, int port, const QString &path)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(database).arg(user).arg(password).arg(server)
-		.arg(port);
+	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
 	const QStringList arguments = { connectionInfo, "install", path };
 
 	QProcess installerProcess;
@@ -52,8 +51,7 @@ bool InstallerHandler::installPatch(const QString &database, const QString &user
 QBitArray InstallerHandler::checkDependencies(const QString &database, const QString &user, const QString &password,
 	const QString &server, int port, const QString &path, bool &isSuccessful)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(database).arg(user).arg(password).arg(server)
-		.arg(port);
+	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
 	const QStringList arguments = { connectionInfo, "check", path };
 
 	QProcess installerProcess;

@@ -26,7 +26,6 @@ ObjectNameCompleter::ObjectNameCompleter(QObject *parent)
 // Fills model with object name data got from database by type and schema
 void ObjectNameCompleter::initialize(int typeIndex, const QString &schema)
 {
-	clear();
 	QString queryText = "";
 
 	switch (typeIndex)

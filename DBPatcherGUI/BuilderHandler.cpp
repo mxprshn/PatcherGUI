@@ -18,8 +18,7 @@ void BuilderHandler::setOutputDevice(QIODevice &newDevice)
 bool BuilderHandler::buildPatch(const QString& database, const QString& user, const QString& password
 	, const QString& server, int port, const QString &patchDir, const QString &buildListDir)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(database).arg(user).arg(password).arg(server)
-		.arg(port);
+	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server).arg(port).arg(database).arg(user).arg(password);
 	const QStringList arguments = { "-d", patchDir, "-p", buildListDir, "-c", connectionInfo, "-t", templatesPath };
 
 	QProcess builderProcess;
