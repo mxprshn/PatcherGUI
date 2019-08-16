@@ -2,6 +2,7 @@
 
 #include <QTextEdit>
 #include <QScrollBar>
+#include <QTextCodec>
 
 // Constructor
 LogOutputDevice::LogOutputDevice(QObject *parent)
@@ -27,8 +28,10 @@ qint64 LogOutputDevice::writeData(const char *data, qint64 len)
 {
 	if (textEdit)
 	{
-		textEdit->append(data);
+		// It should be possibly fixed on Linux
+		textEdit->append(QTextCodec::codecForName("Windows-1251")->toUnicode(data));
 		textEdit->verticalScrollBar()->setValue(textEdit->verticalScrollBar()->maximum());
 	}
+
 	return len;
 }
