@@ -30,6 +30,7 @@ private:
 	void clearCurrentPatch();
 	void setReadyToOpen();
 	bool checkConnection();
+	bool startDependencyCheck();
 signals:
 	void connectionRequested();
 private slots:
@@ -37,4 +38,5 @@ private slots:
 	void onCheckButtonClicked();
 	void onInstallButtonClicked();
 	void onItemCheckChanged();
+	void onDisconnectionStarted();
 };

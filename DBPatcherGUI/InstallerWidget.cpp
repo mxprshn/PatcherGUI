@@ -225,13 +225,9 @@ void InstallerWidget::onCheckButtonClicked()
 		return;
 	}
 
-	auto isSuccessful = false;
-	const auto checkResult = InstallerHandler::checkDependencies(DatabaseProvider::database(), DatabaseProvider::user(), DatabaseProvider::password()
-		, DatabaseProvider::host(), DatabaseProvider::port(), patchDir.absolutePath(), isSuccessful);
-
-	if (isSuccessful && ui->dependencyListWidget->setCheckStatus(checkResult))
+	if (startDependencyCheck())
 	{
-		ui->checkButton->setEnabled(false);
+		ui->checkButton->setDisabled(true);
 
 		QApplication::beep();
 
@@ -321,4 +317,41 @@ void InstallerWidget::onItemCheckChanged()
 		ui->installInfoLabel->setText("To enable installation, mark all dependencies manually.");
 		ui->installButton->setEnabled(false);
 	}
+}
+
+// Handles start of disconnection from database
+void InstallerWidget::onDisconnectionStarted()
+{
+	if (!isPatchOpened)
+	{
+		return;
+	}
+
+	ui->dependencyListWidget->clearCheck();
+	ui->checkButton->setEnabled(true);
+	ui->installButton->setDisabled(true);
+	ui->installInfoLabel->setText("");
+}
+
+bool InstallerWidget::startDependencyCheck()
+{
+	PatchList dependencyList;
+
+	for (auto i = 0; i < ui->dependencyListWidget->topLevelItemCount(); ++i)
+	{
+		const auto currentItem = ui->dependencyListWidget->topLevelItem(i);
+		dependencyList.add(currentItem->data(PatchListWidget::ColumnIndexes::typeColumn, Qt::UserRole).toInt()
+			, currentItem->text(PatchListWidget::ColumnIndexes::schemaColumn)
+			, currentItem->text(PatchListWidget::ColumnIndexes::nameColumn), QStringList());
+	}
+
+	if (!FileHandler::makeDependencyList(patchDir.absolutePath(), dependencyList))
+	{
+		return false;
+	}
+
+	auto isSuccessful = false;
+	const auto checkResult = InstallerHandler::checkDependencies(DatabaseProvider::database(), DatabaseProvider::user(), DatabaseProvider::password()
+		, DatabaseProvider::host(), DatabaseProvider::port(), patchDir.absolutePath(), isSuccessful);
+	return isSuccessful && ui->dependencyListWidget->setCheckStatus(checkResult);
 }

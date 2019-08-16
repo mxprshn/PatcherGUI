@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(ui->installerTab, SIGNAL(connectionRequested()), this, SLOT(onConnectionRequested()));
 	connect(this, SIGNAL(connected()), ui->builderTab, SLOT(onConnected()));
 	connect(this, SIGNAL(disconnectionStarted()), ui->builderTab, SLOT(onDisconnectionStarted()));
+	connect(this, SIGNAL(disconnectionStarted()), ui->installerTab, SLOT(onDisconnectionStarted()));
 }
 
 // Destructor with ui object deleting and database disconnection

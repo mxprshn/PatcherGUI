@@ -44,18 +44,20 @@ bool DependencyListWidget::setCheckStatus(const QBitArray& checkResult)
 
 	for (auto i = 0; i < checkResult.count(); ++i)
 	{
+		const auto current = topLevelItem(i);
+
 		if (checkResult[i])
 		{
 			++checkedCount;
-			topLevelItem(i)->setCheckState(statusColumn, Qt::Checked);
-			topLevelItem(i)->setIcon(statusColumn, QIcon(statusIcons.value(satisfied)));
-			topLevelItem(i)->setData(statusColumn, Qt::UserRole, satisfied);
+			current->setCheckState(statusColumn, Qt::Checked);
+			current->setIcon(statusColumn, QIcon(statusIcons.value(satisfied)));
+			current->setData(statusColumn, Qt::UserRole, satisfied);
 		}
 		else
 		{
 			areAllSatisfied = false;
-			topLevelItem(i)->setIcon(statusColumn, QIcon(statusIcons.value(notSatisfied)));
-			topLevelItem(i)->setData(statusColumn, Qt::UserRole, notSatisfied);
+			current->setIcon(statusColumn, QIcon(statusIcons.value(notSatisfied)));
+			current->setData(statusColumn, Qt::UserRole, notSatisfied);
 		}
 	}
 
@@ -64,7 +66,7 @@ bool DependencyListWidget::setCheckStatus(const QBitArray& checkResult)
 }
 
 // Adds a new dependency to list and marks it as waiting for check
-void DependencyListWidget::add(int typeIndex, const class QString& schema, const class QString& name)
+void DependencyListWidget::add(int typeIndex, const class QString &schema, const class QString &name)
 {
 	auto *newItem = new QTreeWidgetItem(this);
 	newItem->setIcon(typeColumn, QIcon(ObjectTypes::typeIcons.value(typeIndex)));
@@ -83,6 +85,20 @@ void DependencyListWidget::add(int typeIndex, const class QString& schema, const
 void DependencyListWidget::clear()
 {
 	QTreeWidget::clear();
+	checkedCount = 0;
+	areAllSatisfied = true;
+}
+
+// Clears current list check state
+void DependencyListWidget::clearCheck()
+{
+	for (auto i = 0; i < topLevelItemCount(); ++i)
+	{
+		const auto current = topLevelItem(i);
+		current->setCheckState(statusColumn, Qt::Unchecked);
+		current->setIcon(statusColumn, QIcon(statusIcons.value(waitingForCheck)));
+	}
+
 	checkedCount = 0;
 	areAllSatisfied = true;
 }

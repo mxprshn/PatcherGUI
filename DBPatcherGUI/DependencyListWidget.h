@@ -28,6 +28,7 @@ public:
 	bool setCheckStatus(const QBitArray &checkResult);
 	void add(int typeIndex, const QString &schema, const QString &name);
 	void clear();
+	void clearCheck();
 	int getCheckedCount() const;
 	bool getAreAllSatisfied() const;
 private:

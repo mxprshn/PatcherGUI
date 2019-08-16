@@ -12,6 +12,7 @@ public:
 	FileHandler() = delete;
 	static QDir makePatchDir(const QString &path, bool &isSuccessful);
 	static bool makePatchList(const QString &path, const PatchList &patchList);
+	static bool makeDependencyList(const QString &path, const PatchList &dependencyList);
 	static PatchList parseObjectList(const QString &path, bool &isSuccessful);
 	static PatchList parseDependencyList(const QString &path, bool &isSuccessful);
 	static QString getPatchListName();

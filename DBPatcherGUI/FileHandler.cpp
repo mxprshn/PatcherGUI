@@ -64,6 +64,37 @@ bool FileHandler::makePatchList(const QString &path, const PatchList &patchList)
 	return true;
 }
 
+bool FileHandler::makeDependencyList(const QString &path, const PatchList &dependencyList)
+{
+	const QDir patchDir(path);
+	QFile tempFile(patchDir.absoluteFilePath("temp.dpn"));
+	QFile file(patchDir.absoluteFilePath(dependencyListName));
+
+	if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::NewOnly))
+	{
+		return false;
+	}
+
+	QTextStream dependencyFileStream(&tempFile);
+
+	for (const auto current : dependencyList)
+	{
+		dependencyFileStream << current->getSchema() << " " << current->getName() << " "
+			<< ObjectTypes::typeNames.value(current->getType()) << endl;
+	}
+
+	tempFile.close();
+
+	if (!file.remove())
+	{
+		tempFile.remove();
+		return false;
+	}
+
+	auto temp = tempFile.rename(patchDir.absoluteFilePath(dependencyListName));
+	return true;
+}
+
 // Returns PatchList object parsed from object list file
 PatchList FileHandler::parseObjectList(const QString &path, bool &isSuccessful)
 {

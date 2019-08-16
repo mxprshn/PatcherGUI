@@ -472,6 +472,7 @@ void BuilderWidget::onDisconnectionStarted()
 	schemaListModel->clear();
 	nameCompleter->clear();
 	ui->nameEdit->setCompleter(nullptr);
+	ui->buildListWidget->clear();
 }
 
 // Launches patch build
