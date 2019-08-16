@@ -93,7 +93,7 @@ void MainWindow::onDialogConnectButtonClicked()
 		ui->logTextEdit->append(errorMessage);
 		QApplication::beep();
 		QMessageBox::warning(this, "Connection error"
-				, "Connection error. See log for detailed information.", QMessageBox::Ok, QMessageBox::Ok);
+				, "Connection error. See log for details.", QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
 

@@ -310,14 +310,14 @@ void BuilderWidget::onBuildButtonClicked()
 		{
 			QApplication::beep();
 			QMessageBox::information(this, "Build completed"
-				, "Build completed. See log for detailed information."
+				, "Build completed. See log for details."
 				, QMessageBox::Ok, QMessageBox::Ok);
 		}
 		else
 		{
 			QApplication::beep();
 			QMessageBox::warning(this, "Build error"
-				, "Error occured. See log for detailed information."
+				, "Error occured. See log for details."
 				, QMessageBox::Ok, QMessageBox::Ok);			
 		}
 	}
@@ -505,6 +505,10 @@ bool BuilderWidget::startPatchBuild(const QString &path)
 		return false;
 	}
 
-	return BuilderHandler::buildPatch(DatabaseProvider::database(), DatabaseProvider::user(), DatabaseProvider::password()
+	const auto buildResult = BuilderHandler::buildPatch(DatabaseProvider::database(), DatabaseProvider::user(), DatabaseProvider::password()
 		, DatabaseProvider::host(), DatabaseProvider::port(), patchDir.absolutePath(), patchDir.absoluteFilePath(FileHandler::getPatchListName()));
+
+	QFile::remove(patchDir.absoluteFilePath(FileHandler::getPatchListName()));
+
+	return buildResult;
 }

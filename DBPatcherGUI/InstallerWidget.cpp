@@ -249,7 +249,7 @@ void InstallerWidget::onCheckButtonClicked()
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Check error"
-			, "Error occured. See log for detailed information."
+			, "Error occured. See log for details."
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
@@ -283,14 +283,14 @@ void InstallerWidget::onInstallButtonClicked()
 	{
 		QApplication::beep();
 		QMessageBox::information(this, "Installation completed"
-			, "Installation completed. See log for detailed information."
+			, "Installation completed. See log for details."
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 	else
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Installation error"
-			, "Error occured. See log for detailed information."
+			, "Error occured. See log for details."
 			, QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
