@@ -97,6 +97,7 @@ void DependencyListWidget::clearCheck()
 		const auto current = topLevelItem(i);
 		current->setCheckState(statusColumn, Qt::Unchecked);
 		current->setIcon(statusColumn, QIcon(statusIcons.value(waitingForCheck)));
+		current->setData(statusColumn, Qt::UserRole, waitingForCheck);
 	}
 
 	checkedCount = 0;
