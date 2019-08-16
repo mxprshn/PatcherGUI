@@ -3,6 +3,7 @@
 #include "BuilderWidget.h"
 #include "InstallerWidget.h"
 #include "LoginWindow.h"
+#include "SettingsWindow.h"
 #include "LogOutputDevice.h"
 #include "InstallerHandler.h"
 #include "BuilderHandler.h"
@@ -18,8 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
 	, ui(new Ui::MainWindow)
 	, logOutputDevice(new LogOutputDevice(this))
 	, loginWindow(new LoginWindow(this))
+	, settingsWindow(new SettingsWindow(this))
+	, settings("spbu-dreamteam", "Patcher")
 {
 	ui->setupUi(this);
+	readSettings();
 	logOutputDevice->setTextEdit(ui->logTextEdit);
 	logOutputDevice->open(QIODevice::WriteOnly);
 	InstallerHandler::setOutputDevice(*logOutputDevice);
@@ -38,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	ui->viewMenu->addAction(QIcon(":/images/hammer.svg"),"Build", [=]() { ui->tabWidget->setCurrentWidget(ui->builderTab); }, QKeySequence("Ctrl+B"));
 	ui->viewMenu->addAction(QIcon(":/images/install.svg"), "Install", [=]() { ui->tabWidget->setCurrentWidget(ui->installerTab); }, QKeySequence("Ctrl+I"));
+	ui->viewMenu->addAction("Settings...", [=]() { settingsWindow->openSettingsDialog(settings); });
 	ui->viewMenu->addAction("About...", [=]()
 	{
 		QMessageBox::about(this, "PostgreSQL database patcher",
@@ -47,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
 	});
 
 	ui->mainToolBar->addAction(connectAction);
+	ui->mainToolBar->addAction(disconnectAction);
 	ui->mainToolBar->addWidget(databaseInformation);
 
 	connect(loginWindow, SIGNAL(connectButtonClicked()), this, SLOT(onDialogConnectButtonClicked()));
@@ -57,6 +63,11 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(this, SIGNAL(connected()), ui->builderTab, SLOT(onConnected()));
 	connect(this, SIGNAL(disconnectionStarted()), ui->builderTab, SLOT(onDisconnectionStarted()));
 	connect(this, SIGNAL(disconnectionStarted()), ui->installerTab, SLOT(onDisconnectionStarted()));
+	connect(settingsWindow, &SettingsWindow::saveButtonClicked, [&]()
+	{
+		settingsWindow->saveSettings(settings);
+		readSettings();
+	});
 }
 
 // Destructor with ui object deleting and database disconnection
@@ -120,4 +131,9 @@ void MainWindow::onDisconnectButtonClicked()
 	databaseInformation->setText("Connect to database!");
 	connectAction->setEnabled(true);
 	disconnectAction->setDisabled(true);
+}
+
+void MainWindow::readSettings()
+{
+	BuilderHandler::setTemplatesFile(settings.value("templates", "Templates.ini").toString());
 }

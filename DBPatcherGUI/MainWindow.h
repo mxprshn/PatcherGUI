@@ -1,10 +1,12 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QSettings>
 
 class QAction;
 class QLabel;
 class LoginWindow;
+class SettingsWindow;
 class LogOutputDevice;
 
 // Namespace required by Qt for loading .ui form file
@@ -34,6 +36,11 @@ private:
 	QAction *disconnectAction;
 	// Label showing connection information
 	QLabel *databaseInformation;
+	// Settings dialog
+	SettingsWindow *settingsWindow;
+	// Settings object
+	QSettings settings;
+	void readSettings();
 signals:
 	void connected();
 	void disconnectionStarted();

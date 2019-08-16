@@ -4,13 +4,18 @@
 #include <QIODevice>
 
 const QString BuilderHandler::program = "PatchBuilder_exe.exe";
-const QString BuilderHandler::templatesPath = "Templates.ini";
+QString BuilderHandler::templatesPath = "Templates.ini";
 QIODevice *BuilderHandler::outputDevice = nullptr;
 
 // Sets new log output device
 void BuilderHandler::setOutputDevice(QIODevice &newDevice)
 {
 	outputDevice = &newDevice;
+}
+
+void BuilderHandler::setTemplatesFile(const QString &path)
+{
+	templatesPath = path;
 }
 
 // Launches and manages Builder process

@@ -11,6 +11,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 	clear();
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 
 	connect(ui->buttonBox, SIGNAL(accepted()), this, SIGNAL(connectButtonClicked()));
 	connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));

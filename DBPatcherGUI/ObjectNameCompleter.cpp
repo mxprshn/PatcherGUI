@@ -7,8 +7,8 @@
 const QString ObjectNameCompleter::tableQuery = "SELECT DISTINCT table_name FROM information_schema.tables WHERE table_schema = ? AND table_type != 'VIEW';";
 const QString ObjectNameCompleter::sequenceQuery = "SELECT DISTINCT sequence_name FROM information_schema.sequences WHERE sequence_schema = ?;";
 const QString ObjectNameCompleter::functionQuery = "SELECT r.routine_name || '(' || COALESCE(array_to_string(p.proargnames, ',', '*'), '') || ')' "
-		"FROM information_schema.routines r, pg_catalog.pg_proc p WHERE r.specific_schema = ? and r.external_language = 'PLPGSQL' "
-		"and r.routine_name = p.proname and r.specific_name = p.proname || '_' || p.oid;";
+		"FROM information_schema.routines r, pg_catalog.pg_proc p WHERE r.specific_schema = ? AND r.external_language = 'PLPGSQL' "
+		"AND r.routine_name = p.proname AND r.specific_name = p.proname || '_' || p.oid;";
 const QString ObjectNameCompleter::viewQuery = "SELECT DISTINCT table_name FROM information_schema.views WHERE table_schema = ?;";
 const QString ObjectNameCompleter::triggerQuery = "SELECT DISTINCT trigger_name FROM information_schema.triggers WHERE trigger_schema = ?;";
 const QString ObjectNameCompleter::indexQuery = "SELECT DISTINCT indexname FROM pg_indexes WHERE schemaname = ?;";

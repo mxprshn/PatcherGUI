@@ -113,8 +113,8 @@ bool DatabaseProvider::functionExists(const QString &schema, const QString &sign
 {
 	QSqlQuery check;
 	check.prepare("SELECT EXISTS (SELECT * FROM information_schema.routines r, pg_catalog.pg_proc p WHERE"
-		" r.specific_schema = ? and r.routine_name||'('||COALESCE(array_to_string(p.proargnames, ',', '*'),'')||')' = ?"
-		" and r.external_language = 'PLPGSQL' and r.routine_name = p.proname and"
+		" r.specific_schema = ? AND r.routine_name||'('||COALESCE(array_to_string(p.proargnames, ',', '*'),'')||')' = ?"
+		" AND r.external_language = 'PLPGSQL' AND r.routine_name = p.proname AND"
 		" r.specific_name = p.proname || '_' || p.oid);");
 	check.addBindValue(schema);
 	check.addBindValue(signature);
@@ -153,7 +153,7 @@ bool DatabaseProvider::triggerExists(const QString &schema, const QString &name)
 bool DatabaseProvider::indexExists(const QString &schema, const QString &name)
 {
 	QSqlQuery check;
-	check.prepare("SELECT EXISTS (SELECT * FROM pg_indexes WHERE schemaname = ? and indexname = ?);");
+	check.prepare("SELECT EXISTS (SELECT * FROM pg_indexes WHERE schemaname = ? AND indexname = ?);");
 	check.addBindValue(schema);
 	check.addBindValue(name);
 	check.exec();

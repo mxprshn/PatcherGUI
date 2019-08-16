@@ -133,11 +133,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="sizeGripEnabled">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QDockWidget" name="logDockWidget">
    <property name="floating">
     <bool>false</bool>
