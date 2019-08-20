@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="addDatabase.svg">Resources/images/addDatabase.svg</file>
+        <file alias="downArrow.svg">Resources/images/downArrow.svg</file>
+        <file alias="hammer.svg">Resources/images/hammer.svg</file>
+        <file alias="removeFile.svg">Resources/images/removeFile.svg</file>
+        <file alias="upArrow.svg">Resources/images/upArrow.svg</file>
+        <file alias="addFile.svg">Resources/images/addFile.svg</file>
+        <file alias="install.svg">Resources/images/install.svg</file>
+        <file alias="test.svg">Resources/images/test.svg</file>
+        <file alias="removeDatabase.svg">Resources/images/removeDatabase.svg</file>
+        <file alias="error.svg">Resources/images/labels/error.svg</file>
+        <file alias="unchecked.svg">Resources/images/labels/unchecked.svg</file>
+        <file alias="function.svg">Resources/images/labels/function.svg</file>
+        <file alias="sequence.svg">Resources/images/labels/sequence.svg</file>
+        <file alias="table.svg">Resources/images/labels/table.svg</file>
+        <file alias="view.svg">Resources/images/labels/view.svg</file>
+        <file alias="checked.svg">Resources/images/labels/checked.svg</file>
+        <file alias="index.svg">Resources/images/labels/index.svg</file>
+        <file alias="script.svg">Resources/images/labels/script.svg</file>
+        <file alias="trigger.svg">Resources/images/labels/trigger.svg</file>
+        <file alias="folder.svg">Resources/images/folder.svg</file>
+        <file alias="box.svg">Resources/images/box.svg</file>
+        <file alias="close.svg">Resources/images/close.svg</file>
+        <file alias="clearList.svg">Resources/images/clearList.svg</file>
+        <file alias="mainIcon.svg">Resources/images/mainIcon.svg</file>
+    </qresource>
+</RCC>
