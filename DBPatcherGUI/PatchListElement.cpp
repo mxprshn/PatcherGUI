@@ -11,25 +11,25 @@ PatchListElement::PatchListElement(int type, const QString &name, const QString 
 }
 
 // Getter for type
-int PatchListElement::getType() const
+int PatchListElement::GetType() const
 {
 	return type;
 }
 
 // Getter for name
-QString PatchListElement::getName() const
+QString PatchListElement::GetName() const
 {
 	return name;
 }
 
 // Getter for schema
-QString PatchListElement::getSchema() const
+QString PatchListElement::GetSchema() const
 {
 	return schema;
 }
 
 // Getter for parameters
-QStringList PatchListElement::getParameters() const
+QStringList PatchListElement::GetParameters() const
 {
 	return parameters;
 }

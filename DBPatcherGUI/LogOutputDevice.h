@@ -11,10 +11,10 @@ class LogOutputDevice : public QIODevice
 
 public:
 	LogOutputDevice(QObject *parent = nullptr);
-	void setTextEdit(QTextEdit *textEdit);
+	void SetTextEdit(QTextEdit *text_edit);
 private:
 	// QTextEdit object to which output is redirected
-	QTextEdit *textEdit;
+	QTextEdit *text_edit;
 protected:
 	qint64 readData(char* data, qint64 maxlen) override;
 	qint64 writeData(const char* data, qint64 len) override;

@@ -12,16 +12,16 @@ class ObjectNameCompleter : public QCompleter
 public:
 	ObjectNameCompleter(QObject *parent = nullptr);
 	~ObjectNameCompleter();
-	void initialize(int typeIndex, const QString &schema);
-	void clear();
+	void Initialize(int type_index, const QString &schema);
+	void Clear();
 private:
 	// Object list model
 	QSqlQueryModel *model;
 	// Queries for fetching object names from database
-	static const QString tableQuery;
-	static const QString sequenceQuery;
-	static const QString functionQuery;
-	static const QString viewQuery;
-	static const QString triggerQuery;
-	static const QString indexQuery;
+	static const QString table_query;
+	static const QString sequence_query;
+	static const QString function_query;
+	static const QString view_query;
+	static const QString trigger_query;
+	static const QString index_query;
 };

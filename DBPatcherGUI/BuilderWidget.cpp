@@ -17,13 +17,13 @@
 BuilderWidget::BuilderWidget(QWidget *parent)
 	: QWidget(parent)
 	, ui(new Ui::BuilderWidget)
-	, schemaListModel(new QSqlQueryModel(this))
-	, nameCompleter(new ObjectNameCompleter(this))
+	, schema_list_model(new QSqlQueryModel(this))
+	, name_completer(new ObjectNameCompleter(this))
 {
 	ui->setupUi(this);
 
 	// Initialization of ui elements
-	ui->schemaComboBox->setModel(schemaListModel);
+	ui->schemaComboBox->setModel(schema_list_model);
 	ui->moveUpButton->setDisabled(true);
 	ui->moveDownButton->setDisabled(true);
 	ui->removeButton->setDisabled(true);
@@ -39,13 +39,13 @@ BuilderWidget::BuilderWidget(QWidget *parent)
 	ui->typeComboBox->addItem(QIcon(":/images/trigger.svg"), "trigger", ObjectTypes::trigger);
 	ui->typeComboBox->addItem(QIcon(":/images/index.svg"), "index", ObjectTypes::index);
 
-	initScriptInput();
+	InitScriptInput();
  
 	connect(ui->nameEdit, &QLineEdit::returnPressed, [=]()
 	{
-		if (!nameCompleter->popup()->isVisible())
+		if (!name_completer->popup()->isVisible())
 		{
-			onAddButtonClicked();
+			OnAddButtonClicked();
 		}
 	});
 
@@ -70,14 +70,14 @@ BuilderWidget::~BuilderWidget()
 }
 
 // Checks database connection, shows error message and requests connection
-bool BuilderWidget::checkConnection()
+bool BuilderWidget::CheckConnection()
 {
-	if (!DatabaseProvider::isConnected())
+	if (!DatabaseProvider::IsConnected())
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Database error", "No connection to database"
 			, QMessageBox::Ok, QMessageBox::Ok);
-		emit connectionRequested();
+		emit ConnectionRequested();
 		return false;
 	}
 
@@ -86,9 +86,9 @@ bool BuilderWidget::checkConnection()
 
 // Handles add button click
 // Checks the availability of new element addition and calls add methods
-void BuilderWidget::onAddButtonClicked()
+void BuilderWidget::OnAddButtonClicked()
 {
-	if (!checkConnection())
+	if (!CheckConnection())
 	{
 		return;
 	}
@@ -99,7 +99,7 @@ void BuilderWidget::onAddButtonClicked()
 
 	if (typeIndex == ObjectTypes::script)
 	{
-		addScripts(nameInput);
+		AddScripts(nameInput);
 		return;
 	}
 
@@ -111,7 +111,7 @@ void BuilderWidget::onAddButtonClicked()
 		return;
 	}
 
-	if (ui->buildListWidget->itemExists(typeIndex, schema, nameInput))
+	if (ui->buildListWidget->ItemExists(typeIndex, schema, nameInput))
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Item not added"
@@ -127,41 +127,41 @@ void BuilderWidget::onAddButtonClicked()
 	{
 		case ObjectTypes::table:
 		{
-			exists = DatabaseProvider::tableExists(schema, nameInput);
+			exists = DatabaseProvider::TableExists(schema, nameInput);
 			break;
 		}
 		case ObjectTypes::sequence:
 		{
-			exists = DatabaseProvider::sequenceExists(schema, nameInput);
+			exists = DatabaseProvider::SequenceExists(schema, nameInput);
 			break;
 		}
 		case ObjectTypes::view:
 		{
-			exists = DatabaseProvider::viewExists(schema, nameInput);
+			exists = DatabaseProvider::ViewExists(schema, nameInput);
 			break;
 		}
 		case ObjectTypes::trigger:
 		{
-			exists = DatabaseProvider::triggerExists(schema, nameInput);
+			exists = DatabaseProvider::TriggerExists(schema, nameInput);
 			break;
 		}
 		case ObjectTypes::function:
 		{
-			exists = DatabaseProvider::functionExists(schema, nameInput);
+			exists = DatabaseProvider::FunctionExists(schema, nameInput);
 			break;
 		}
 		case ObjectTypes::index:
 		{
-			exists = DatabaseProvider::indexExists(schema, nameInput);
+			exists = DatabaseProvider::IndexExists(schema, nameInput);
 			break;
 		}
 	}
 
 	if (exists)
 	{
-		ui->buildListWidget->add(typeIndex, schema, nameInput, true);
+		ui->buildListWidget->Add(typeIndex, schema, nameInput, true);
 		ui->nameEdit->clear();
-		emit itemCountChanged();
+		emit ItemCountChanged();
 	}
 	else
 	{
@@ -175,7 +175,7 @@ void BuilderWidget::onAddButtonClicked()
 
 // Parses script names string if it is not empty, or opens file dialog otherwise
 // Adds parsed script objects to the list widget
-void BuilderWidget::addScripts(const QString &input)
+void BuilderWidget::AddScripts(const QString &input)
 {
 	QStringList fileList;
 
@@ -206,9 +206,9 @@ void BuilderWidget::addScripts(const QString &input)
 
 	for (const auto &current : fileList)
 	{
-		if (!ui->buildListWidget->itemExists(ObjectTypes::script, "", current))
+		if (!ui->buildListWidget->ItemExists(ObjectTypes::script, "", current))
 		{
-			ui->buildListWidget->add(ObjectTypes::script, "", current, true);
+			ui->buildListWidget->Add(ObjectTypes::script, "", current, true);
 		}
 		else
 		{
@@ -228,11 +228,11 @@ void BuilderWidget::addScripts(const QString &input)
 		ui->nameEdit->clear();
 	}
 
-	emit itemCountChanged();
+	emit ItemCountChanged();
 }
 
 // Initializes ui elements for script path input
-void BuilderWidget::initScriptInput()
+void BuilderWidget::InitScriptInput()
 {
 	ui->schemaComboBox->setDisabled(true);
 	ui->nameEdit->setPlaceholderText("SQL script file path (leave empty to open in explorer)");
@@ -240,34 +240,34 @@ void BuilderWidget::initScriptInput()
 }
 
 // Updates name completer from database by schema name and type index 
-void BuilderWidget::initCompleter()
+void BuilderWidget::InitCompleter()
 {
-	if (!DatabaseProvider::isConnected())
+	if (!DatabaseProvider::IsConnected())
 	{
 		return;
 	}
 
 	if (ui->typeComboBox->currentData(Qt::UserRole) == ObjectTypes::script)
 	{
-		nameCompleter->clear();
+		name_completer->Clear();
 		ui->nameEdit->setCompleter(nullptr);
 		return;
 	}
 
-	nameCompleter->initialize(ui->typeComboBox->currentData(Qt::UserRole).toInt(), ui->schemaComboBox->currentText());
-	ui->nameEdit->setCompleter(nameCompleter);
+	name_completer->Initialize(ui->typeComboBox->currentData(Qt::UserRole).toInt(), ui->schemaComboBox->currentText());
+	ui->nameEdit->setCompleter(name_completer);
 }
 
 // Handles open explorer button click
-void BuilderWidget::onExplorerButtonClicked()
+void BuilderWidget::OnExplorerButtonClicked()
 {
 	ui->patchPathEdit->setText(QFileDialog::getExistingDirectory(this, "Choose build directory"));
 }
 
 // Handles build button click, calls build method
-void BuilderWidget::onBuildButtonClicked()
+void BuilderWidget::OnBuildButtonClicked()
 {
-	if (!checkConnection())
+	if (!CheckConnection())
 	{
 		return;
 	}
@@ -276,7 +276,7 @@ void BuilderWidget::onBuildButtonClicked()
 	{
 		QMessageBox::information(this, "Build error", "Please, choose target directory"
 			, QMessageBox::Ok, QMessageBox::Ok);
-		onExplorerButtonClicked();
+		OnExplorerButtonClicked();
 		return;
 	}
 
@@ -305,7 +305,7 @@ void BuilderWidget::onBuildButtonClicked()
 
 	if (dialogResult == QMessageBox::Ok)
 	{
-		if (startPatchBuild(ui->patchPathEdit->text()))
+		if (StartPatchBuild(ui->patchPathEdit->text()))
 		{
 			QApplication::beep();
 			QMessageBox::information(this, "Build completed"
@@ -323,7 +323,7 @@ void BuilderWidget::onBuildButtonClicked()
 }
 
 // Handles remove item button click
-void BuilderWidget::onRemoveButtonClicked()
+void BuilderWidget::OnRemoveButtonClicked()
 {
 	const auto dialogResult = QMessageBox::question(this, "Remove item", "Are you sure to remove " +
 		ui->buildListWidget->currentItem()->text(PatchListWidget::ColumnIndexes::nameColumn) +
@@ -333,12 +333,12 @@ void BuilderWidget::onRemoveButtonClicked()
 	if (dialogResult == QMessageBox::Ok && ui->buildListWidget->topLevelItemCount() != 0)
 	{
 		ui->buildListWidget->takeTopLevelItem(ui->buildListWidget->currentIndex().row());
-		emit itemCountChanged();
+		emit ItemCountChanged();
 	}
 }
 
 // Handles move item up button click
-void BuilderWidget::onMoveUpButtonClicked()
+void BuilderWidget::OnMoveUpButtonClicked()
 {
 	if (ui->buildListWidget->topLevelItemCount() > 1 && ui->buildListWidget->currentIndex().row() > 0)
 	{
@@ -350,7 +350,7 @@ void BuilderWidget::onMoveUpButtonClicked()
 }
 
 // Handles move item down button click
-void BuilderWidget::onMoveDownButtonClicked()
+void BuilderWidget::OnMoveDownButtonClicked()
 {
 	if (ui->buildListWidget->topLevelItemCount() > 1 && ui->buildListWidget->currentIndex().row() != ui->buildListWidget->topLevelItemCount() - 1)
 	{
@@ -362,7 +362,7 @@ void BuilderWidget::onMoveDownButtonClicked()
 }
 
 // Handles clear build list button click
-void BuilderWidget::onClearButtonClicked()
+void BuilderWidget::OnClearButtonClicked()
 {
 	const auto dialogResult = QMessageBox::question(this, "Clear list", "Are you sure to clear patch list?"
 		, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
@@ -370,13 +370,13 @@ void BuilderWidget::onClearButtonClicked()
 	if (dialogResult == QMessageBox::Ok && ui->buildListWidget->topLevelItemCount() != 0)
 	{
 		ui->buildListWidget->clear();
-		emit itemCountChanged();
+		emit ItemCountChanged();
 	}
 }
 
 // Handles list elements selection state change
 // Enables operations with list elements if one of them is selected
-void BuilderWidget::onItemSelectionChanged()
+void BuilderWidget::OnItemSelectionChanged()
 {
 	if (ui->buildListWidget->selectedItems().isEmpty())
 	{
@@ -394,9 +394,9 @@ void BuilderWidget::onItemSelectionChanged()
 
 // Handles current type change
 // Sets ui elements for object name input by selected type
-void BuilderWidget::onCurrentTypeChanged(int type)
+void BuilderWidget::OnCurrentTypeChanged(int type)
 {
-	initCompleter();
+	InitCompleter();
 
 	if (type == ObjectTypes::function)
 	{
@@ -407,7 +407,7 @@ void BuilderWidget::onCurrentTypeChanged(int type)
 
 	if (type == ObjectTypes::script)
 	{
-		initScriptInput();
+		InitScriptInput();
 	}
 	else if (!ui->schemaComboBox->isEnabled())
 	{
@@ -423,14 +423,14 @@ void BuilderWidget::onCurrentTypeChanged(int type)
 }
 
 // Handles current schema change
-void BuilderWidget::onCurrentSchemaChanged(const QString& schema)
+void BuilderWidget::OnCurrentSchemaChanged(const QString& schema)
 {
-	initCompleter();
+	InitCompleter();
 }
 
 // Handles current name input change
 // If it is a function, checks its signature with regular expression
-void BuilderWidget::onNameTextChanged(const QString &input)
+void BuilderWidget::OnNameTextChanged(const QString &input)
 {
 	if (ui->typeComboBox->currentData(Qt::UserRole).toInt() != ObjectTypes::function)
 	{
@@ -442,7 +442,7 @@ void BuilderWidget::onNameTextChanged(const QString &input)
 
 // Handles amount of build list elements change
 // Enables build and clear options if the list is not empty
-void BuilderWidget::onItemCountChanged()
+void BuilderWidget::OnItemCountChanged()
 {
 	if (ui->buildListWidget->topLevelItemCount() == 0)
 	{
@@ -458,27 +458,27 @@ void BuilderWidget::onItemCountChanged()
 
 // Handles connection to database
 // Initializes elements which depend on database
-void BuilderWidget::onConnected()
+void BuilderWidget::OnConnected()
 {
-	DatabaseProvider::initSchemaListModel(*schemaListModel);
-	initCompleter();
+	DatabaseProvider::InitSchemaListModel(*schema_list_model);
+	InitCompleter();
 }
 
 // Handles start of disconnection from database
 // Clears elements which depend on database
-void BuilderWidget::onDisconnectionStarted()
+void BuilderWidget::OnDisconnectionStarted()
 {
-	schemaListModel->clear();
-	nameCompleter->clear();
+	schema_list_model->clear();
+	name_completer->Clear();
 	ui->nameEdit->setCompleter(nullptr);
 	ui->buildListWidget->clear();
 }
 
 // Launches patch build
-bool BuilderWidget::startPatchBuild(const QString &path)
+bool BuilderWidget::StartPatchBuild(const QString &path)
 {
 	auto isSuccessful = false;
-	const auto patchDir = FileHandler::makePatchDir(path, isSuccessful);
+	const auto patchDir = FileHandler::MakePatchDir(path, isSuccessful);
 
 	if (!isSuccessful)
 	{
@@ -494,20 +494,20 @@ bool BuilderWidget::startPatchBuild(const QString &path)
 			, QString::SkipEmptyParts);
 		const auto itemName = nameSplitResult.first();
 		nameSplitResult.pop_front();
-		buildList.add(currentItem->data(PatchListWidget::ColumnIndexes::typeColumn, Qt::UserRole).toInt()
+		buildList.Add(currentItem->data(PatchListWidget::ColumnIndexes::typeColumn, Qt::UserRole).toInt()
 			, currentItem->text(PatchListWidget::ColumnIndexes::schemaColumn)
 			, itemName, nameSplitResult);
 	}
 
-	if (!FileHandler::makePatchList(patchDir.absolutePath(), buildList))
+	if (!FileHandler::MakePatchList(patchDir.absolutePath(), buildList))
 	{
 		return false;
 	}
 
-	const auto buildResult = BuilderHandler::buildPatch(DatabaseProvider::database(), DatabaseProvider::user(), DatabaseProvider::password()
-		, DatabaseProvider::host(), DatabaseProvider::port(), patchDir.absolutePath(), patchDir.absoluteFilePath(FileHandler::getPatchListName()));
+	const auto buildResult = BuilderHandler::BuildPatch(DatabaseProvider::Database(), DatabaseProvider::User(), DatabaseProvider::Password()
+		, DatabaseProvider::Host(), DatabaseProvider::Port(), patchDir.absolutePath(), patchDir.absoluteFilePath(FileHandler::GetPatchListName()));
 
-	QFile::remove(patchDir.absoluteFilePath(FileHandler::getPatchListName()));
+	QFile::remove(patchDir.absoluteFilePath(FileHandler::GetPatchListName()));
 
 	return buildResult;
 }

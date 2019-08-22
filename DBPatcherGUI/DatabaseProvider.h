@@ -10,20 +10,20 @@ class DatabaseProvider
 {
 public:
 	DatabaseProvider() = delete;
-	static QString database();
-	static QString user();
-	static QString password();
-	static QString host();
-	static int port();
-	static bool isConnected();
-	static bool connect(const QString &database, const QString &user, const QString &password,
-		const QString &server, const int port, QString &errorMessage);
-	static void disconnect();
-	static bool tableExists(const QString &schema, const QString &name);
-	static bool sequenceExists(const QString &schema, const QString &name);
-	static bool functionExists(const QString &schema, const QString &signature);
-	static bool viewExists(const QString &schema, const QString &name);
-	static bool triggerExists(const QString &schema, const QString &name);
-	static bool indexExists(const QString &schema, const QString &name);
-	static void initSchemaListModel(QSqlQueryModel &model);
+	static QString Database();
+	static QString User();
+	static QString Password();
+	static QString Host();
+	static int Port();
+	static bool IsConnected();
+	static bool Connect(const QString &database, const QString &user, const QString &password,
+		const QString &server, const int port, QString &error_message);
+	static void Disconnect();
+	static bool TableExists(const QString &schema, const QString &name);
+	static bool SequenceExists(const QString &schema, const QString &name);
+	static bool FunctionExists(const QString &schema, const QString &signature);
+	static bool ViewExists(const QString &schema, const QString &name);
+	static bool TriggerExists(const QString &schema, const QString &name);
+	static bool IndexExists(const QString &schema, const QString &name);
+	static void InitSchemaListModel(QSqlQueryModel &model);
 };

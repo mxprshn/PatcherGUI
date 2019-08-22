@@ -4,14 +4,14 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 
-const QString ObjectNameCompleter::tableQuery = "SELECT DISTINCT table_name FROM information_schema.tables WHERE table_schema = ? AND table_type != 'VIEW';";
-const QString ObjectNameCompleter::sequenceQuery = "SELECT DISTINCT sequence_name FROM information_schema.sequences WHERE sequence_schema = ?;";
-const QString ObjectNameCompleter::functionQuery = "SELECT r.routine_name || '(' || COALESCE(array_to_string(p.proargnames, ',', '*'), '') || ')' "
+const QString ObjectNameCompleter::table_query = "SELECT DISTINCT table_name FROM information_schema.tables WHERE table_schema = ? AND table_type != 'VIEW';";
+const QString ObjectNameCompleter::sequence_query = "SELECT DISTINCT sequence_name FROM information_schema.sequences WHERE sequence_schema = ?;";
+const QString ObjectNameCompleter::function_query = "SELECT r.routine_name || '(' || COALESCE(array_to_string(p.proargnames, ',', '*'), '') || ')' "
 		"FROM information_schema.routines r, pg_catalog.pg_proc p WHERE r.specific_schema = ? AND r.external_language = 'PLPGSQL' "
 		"AND r.routine_name = p.proname AND r.specific_name = p.proname || '_' || p.oid;";
-const QString ObjectNameCompleter::viewQuery = "SELECT DISTINCT table_name FROM information_schema.views WHERE table_schema = ?;";
-const QString ObjectNameCompleter::triggerQuery = "SELECT DISTINCT trigger_name FROM information_schema.triggers WHERE trigger_schema = ?;";
-const QString ObjectNameCompleter::indexQuery = "SELECT DISTINCT indexname FROM pg_indexes WHERE schemaname = ?;";
+const QString ObjectNameCompleter::view_query = "SELECT DISTINCT table_name FROM information_schema.views WHERE table_schema = ?;";
+const QString ObjectNameCompleter::trigger_query = "SELECT DISTINCT trigger_name FROM information_schema.triggers WHERE trigger_schema = ?;";
+const QString ObjectNameCompleter::index_query = "SELECT DISTINCT indexname FROM pg_indexes WHERE schemaname = ?;";
 
 // Constructor
 ObjectNameCompleter::ObjectNameCompleter(QObject *parent)
@@ -24,40 +24,40 @@ ObjectNameCompleter::ObjectNameCompleter(QObject *parent)
 }
 
 // Fills model with object name data got from database by type and schema
-void ObjectNameCompleter::initialize(int typeIndex, const QString &schema)
+void ObjectNameCompleter::Initialize(int type_index, const QString &schema)
 {
 	QString queryText = "";
 
-	switch (typeIndex)
+	switch (type_index)
 	{
 		case ObjectTypes::table:
 		{
-			queryText = tableQuery;
+			queryText = table_query;
 			break;
 		}
 		case ObjectTypes::sequence:
 		{
-			queryText = sequenceQuery;
+			queryText = sequence_query;
 			break;
 		}
 		case ObjectTypes::function:
 		{
-			queryText = functionQuery;
+			queryText = function_query;
 			break;
 		}
 		case ObjectTypes::view:
 		{
-			queryText = viewQuery;
+			queryText = view_query;
 			break;
 		}
 		case ObjectTypes::trigger:
 		{
-			queryText = triggerQuery;
+			queryText = trigger_query;
 			break;
 		}
 		case ObjectTypes::index:
 		{
-			queryText = indexQuery;
+			queryText = index_query;
 			break;
 		}
 		default:
@@ -74,7 +74,7 @@ void ObjectNameCompleter::initialize(int typeIndex, const QString &schema)
 }
 
 // Clears model
-void ObjectNameCompleter::clear()
+void ObjectNameCompleter::Clear()
 {
 	model->clear();
 }

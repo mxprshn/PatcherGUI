@@ -17,32 +17,32 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::MainWindow)
-	, logOutputDevice(new LogOutputDevice(this))
-	, loginWindow(new LoginWindow(this))
-	, settingsWindow(new SettingsWindow(this))
+	, log_output_device(new LogOutputDevice(this))
+	, login_window(new LoginWindow(this))
+	, settings_window(new SettingsWindow(this))
 	, settings("spbu-dreamteam", "Patcher")
 {
 	ui->setupUi(this);
-	readSettings();
-	logOutputDevice->setTextEdit(ui->logTextEdit);
-	logOutputDevice->open(QIODevice::WriteOnly);
-	InstallerHandler::setOutputDevice(*logOutputDevice);
-	BuilderHandler::setOutputDevice(*logOutputDevice);
+	ReadSettings();
+	log_output_device->SetTextEdit(ui->logTextEdit);
+	log_output_device->open(QIODevice::WriteOnly);
+	InstallerHandler::SetOutputDevice(*log_output_device);
+	BuilderHandler::SetOutputDevice(*log_output_device);
 
-	connectAction = new QAction(QIcon(":/images/addDatabase.svg"), "Connect to database...", this);
-	disconnectAction = new QAction(QIcon(":/images/removeDatabase.svg"), "Disconnect", this);
-	disconnectAction->setDisabled(true);
-	databaseInformation = new QLabel("Connect to database!", this);
+	connect_action = new QAction(QIcon(":/images/addDatabase.svg"), "Connect to database...", this);
+	disconnect_action = new QAction(QIcon(":/images/removeDatabase.svg"), "Disconnect", this);
+	disconnect_action->setDisabled(true);
+	database_information = new QLabel("Connect to database!", this);
 
-	ui->databaseMenu->addAction(connectAction);
-	ui->databaseMenu->addAction(disconnectAction);
+	ui->databaseMenu->addAction(connect_action);
+	ui->databaseMenu->addAction(disconnect_action);
 
-	connectAction->setShortcut(QKeySequence("Ctrl+O"));
-	disconnectAction->setShortcut(QKeySequence("Ctrl+W"));
+	connect_action->setShortcut(QKeySequence("Ctrl+O"));
+	disconnect_action->setShortcut(QKeySequence("Ctrl+W"));
 
 	ui->viewMenu->addAction(QIcon(":/images/hammer.svg"),"Build", [=]() { ui->tabWidget->setCurrentWidget(ui->builderTab); }, QKeySequence("Ctrl+B"));
 	ui->viewMenu->addAction(QIcon(":/images/install.svg"), "Install", [=]() { ui->tabWidget->setCurrentWidget(ui->installerTab); }, QKeySequence("Ctrl+I"));
-	ui->viewMenu->addAction("Settings...", [=]() { settingsWindow->openSettingsDialog(settings); });
+	ui->viewMenu->addAction("Settings...", [=]() { settings_window->OpenSettingsDialog(settings); });
 	ui->viewMenu->addAction("About...", [=]()
 	{
 		QMessageBox::about(this, "PostgreSQL database patcher",
@@ -51,31 +51,31 @@ MainWindow::MainWindow(QWidget *parent)
 			"Icons made by: Vitaly Gorbachev, Smashicons, Pixelmeetup, Freepik, Roundicons, Good Ware from www.flaticon.com and www.icons8.com. 2019");
 	});
 
-	ui->mainToolBar->addAction(connectAction);
-	ui->mainToolBar->addWidget(databaseInformation);
+	ui->mainToolBar->addAction(connect_action);
+	ui->mainToolBar->addWidget(database_information);
 
-	connect(loginWindow, SIGNAL(connectButtonClicked()), this, SLOT(onDialogConnectButtonClicked()));
-	connect(connectAction, SIGNAL(triggered()), this, SLOT(onConnectionRequested()));
-	connect(disconnectAction, SIGNAL(triggered()), this, SLOT(onDisconnectButtonClicked()));
+	connect(login_window, SIGNAL(connectButtonClicked()), this, SLOT(onDialogConnectButtonClicked()));
+	connect(connect_action, SIGNAL(triggered()), this, SLOT(onConnectionRequested()));
+	connect(disconnect_action, SIGNAL(triggered()), this, SLOT(onDisconnectButtonClicked()));
 	connect(ui->builderTab, SIGNAL(connectionRequested()), this, SLOT(onConnectionRequested()));
 	connect(ui->installerTab, SIGNAL(connectionRequested()), this, SLOT(onConnectionRequested()));
 	connect(this, SIGNAL(connected()), ui->builderTab, SLOT(onConnected()));
 	connect(this, SIGNAL(disconnectionStarted()), ui->builderTab, SLOT(onDisconnectionStarted()));
 	connect(this, SIGNAL(disconnectionStarted()), ui->installerTab, SLOT(onDisconnectionStarted()));
-	connect(settingsWindow, &SettingsWindow::saveButtonClicked, [&]()
+	connect(settings_window, &SettingsWindow::SaveButtonClicked, [&]()
 	{
-		settingsWindow->saveSettings(settings);
-		readSettings();
+		settings_window->SaveSettings(settings);
+		ReadSettings();
 	});
 }
 
 // Destructor with ui object deleting and database disconnection
 MainWindow::~MainWindow()
 {
-	if (DatabaseProvider::isConnected())
+	if (DatabaseProvider::IsConnected())
 	{
-		emit disconnectionStarted();
-		DatabaseProvider::disconnect();
+		emit DisconnectionStarted();
+		DatabaseProvider::Disconnect();
 	}
 
 	delete ui;
@@ -83,20 +83,20 @@ MainWindow::~MainWindow()
 
 // Handles click of OK button on input dialog
 // Launches database connection and sets appropriate interface elements
-void MainWindow::onDialogConnectButtonClicked()
+void MainWindow::OnDialogConnectButtonClicked()
 {
 	QString errorMessage = "";
 
-	if (DatabaseProvider::connect(loginWindow->getDatabaseInput(), loginWindow->getUsernameInput()
-		, loginWindow->getPasswordInput(), loginWindow->getHostInput(), loginWindow->getPortInput(), errorMessage))
+	if (DatabaseProvider::Connect(login_window->GetDatabaseInput(), login_window->GetUsernameInput()
+		, login_window->GetPasswordInput(), login_window->GetHostInput(), login_window->GetPortInput(), errorMessage))
 	{
-		databaseInformation->setText("Connected to \"" + DatabaseProvider::database() + "\" as \""
-			+ DatabaseProvider::user() + "\"");
-		connectAction->setDisabled(true);
-		disconnectAction->setEnabled(true);
-		loginWindow->clear();
-		loginWindow->close();
-		emit connected();
+		database_information->setText("Connected to \"" + DatabaseProvider::Database() + "\" as \""
+			+ DatabaseProvider::User() + "\"");
+		connect_action->setDisabled(true);
+		disconnect_action->setEnabled(true);
+		login_window->Clear();
+		login_window->close();
+		emit Connected();
 	}
 	else
 	{
@@ -108,14 +108,14 @@ void MainWindow::onDialogConnectButtonClicked()
 }
 
 // Handles connection requests from other widgets
-void MainWindow::onConnectionRequested()
+void MainWindow::OnConnectionRequested()
 {
-	loginWindow->show();
+	login_window->show();
 }
 
 // Handles disconnect button click
 // Launches database disconnection and sets appropriate interface elements
-void MainWindow::onDisconnectButtonClicked()
+void MainWindow::OnDisconnectButtonClicked()
 {
 	const auto dialogResult = QMessageBox::question(this, "Disconnect from the database", "Do you want to disconnect from the database?"
 		, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
@@ -125,15 +125,15 @@ void MainWindow::onDisconnectButtonClicked()
 		return;
 	}
 
-	emit disconnectionStarted();
-	DatabaseProvider::disconnect();
-	databaseInformation->setText("Connect to database!");
-	connectAction->setEnabled(true);
-	disconnectAction->setDisabled(true);
+	emit DisconnectionStarted();
+	DatabaseProvider::Disconnect();
+	database_information->setText("Connect to database!");
+	connect_action->setEnabled(true);
+	disconnect_action->setDisabled(true);
 }
 
 // Reads saved settings for the application
-void MainWindow::readSettings()
+void MainWindow::ReadSettings()
 {
-	BuilderHandler::setTemplatesFile(settings.value("templates", "Templates.ini").toString());
+	BuilderHandler::SetTemplatesFile(settings.value("templates", "Templates.ini").toString());
 }

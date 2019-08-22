@@ -10,7 +10,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 	, ui(new Ui::LoginWindow)
 {
 	ui->setupUi(this);
-	clear();
+	Clear();
 	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 
 	connect(ui->buttonBox, SIGNAL(accepted()), this, SIGNAL(connectButtonClicked()));
@@ -25,37 +25,37 @@ LoginWindow::~LoginWindow()
 }
 
 // Getter for host input
-QString LoginWindow::getHostInput() const
+QString LoginWindow::GetHostInput() const
 {
 	return ui->hostLineEdit->text();
 }
 
 // Getter for port input
-int LoginWindow::getPortInput() const
+int LoginWindow::GetPortInput() const
 {
 	return ui->portLineEdit->text().toInt();
 }
 
 // Getter for database name input
-QString LoginWindow::getDatabaseInput() const
+QString LoginWindow::GetDatabaseInput() const
 {
 	return ui->databaseLineEdit->text();
 }
 
 // Getter for username input
-QString LoginWindow::getUsernameInput() const
+QString LoginWindow::GetUsernameInput() const
 {
 	return ui->usernameLineEdit->text();
 }
 
 // Getter for password input
-QString LoginWindow::getPasswordInput() const
+QString LoginWindow::GetPasswordInput() const
 {
 	return ui->passwordLineEdit->text();
 }
 
 // Sets input lines to default state
-void LoginWindow::clear()
+void LoginWindow::Clear()
 {
 	ui->hostLineEdit->clear();
 	ui->portLineEdit->setText("5432");

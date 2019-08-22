@@ -7,14 +7,14 @@
 // Constructor
 LogOutputDevice::LogOutputDevice(QObject *parent)
 	: QIODevice(parent)
-	, textEdit(nullptr)
+	, text_edit(nullptr)
 {
 }
 
 // Sets new QTextEdit for output
-void LogOutputDevice::setTextEdit(QTextEdit *textEdit)
+void LogOutputDevice::SetTextEdit(QTextEdit *text_edit)
 {
-	this->textEdit = textEdit;
+	this->text_edit = text_edit;
 }
 
 // Reimplements QTextEdit reading virtual method
@@ -26,11 +26,11 @@ qint64 LogOutputDevice::readData(char *data, qint64 maxlen)
 // Reimplements QTextEdit writing virtual method
 qint64 LogOutputDevice::writeData(const char *data, qint64 len)
 {
-	if (textEdit)
+	if (text_edit)
 	{
 		// It should be possibly fixed on Linux
-		textEdit->append(QTextCodec::codecForName("Windows-1251")->toUnicode(data));
-		textEdit->verticalScrollBar()->setValue(textEdit->verticalScrollBar()->maximum());
+		text_edit->append(QTextCodec::codecForName("Windows-1251")->toUnicode(data));
+		text_edit->verticalScrollBar()->setValue(text_edit->verticalScrollBar()->maximum());
 	}
 
 	return len;

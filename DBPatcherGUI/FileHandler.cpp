@@ -7,32 +7,32 @@
 #include <QDateTime>
 #include <QTextStream>
 
-const QString FileHandler::patchListName = "PatchList.txt";
-const QString FileHandler::dependencyListName = "DependencyList.dpn";
-const QString FileHandler::objectListName = "ObjectList.txt";
+const QString FileHandler::patch_list_name = "PatchList.txt";
+const QString FileHandler::dependency_list_name = "DependencyList.dpn";
+const QString FileHandler::object_list_name = "ObjectList.txt";
 
 // Makes directory for patch files
-QDir FileHandler::makePatchDir(const QString &path, bool &isSuccessful)
+QDir FileHandler::MakePatchDir(const QString &path, bool &is_successful)
 {
 	QDir patchDir(path);
 	// Can database have a name with dots?
-	const auto patchDirName = DatabaseProvider::database() + "_build_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm-ss");
+	const auto patchDirName = DatabaseProvider::Database() + "_build_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm-ss");
 
 	if (!patchDir.mkdir(patchDirName) || !patchDir.cd(patchDirName))
 	{
-		isSuccessful = false;
+		is_successful = false;
 		return QString();
 	}
 
-	isSuccessful = true;
+	is_successful = true;
 	return patchDir;
 }
 
 // Makes patch list file from PatchList object
-bool FileHandler::makePatchList(const QString &path, const PatchList &patchList)
+bool FileHandler::MakePatchList(const QString &path, const PatchList &patch_list)
 {
 	const QDir patchDir(path);
-	QFile file(patchDir.absoluteFilePath(patchListName));
+	QFile file(patchDir.absoluteFilePath(patch_list_name));
 
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::NewOnly))
 	{
@@ -41,19 +41,19 @@ bool FileHandler::makePatchList(const QString &path, const PatchList &patchList)
 
 	QTextStream patchFileStream(&file);
 
-	for (const auto current : patchList)
+	for (const auto current : patch_list)
 	{
 		if (current->getType() == ObjectTypes::script)
 		{
-			patchFileStream << ObjectTypes::typeNames.value(current->getType()) << " " << current->getName();
+			patchFileStream << ObjectTypes::type_names.value(current->getType()) << " " << current->getName();
 		}
 		else
 		{
-			patchFileStream << current->getSchema() << " " << current->getName() << " " << ObjectTypes::typeNames.value(current->getType());
+			patchFileStream << current->getSchema() << " " << current->getName() << " " << ObjectTypes::type_names.value(current->getType());
 
 			if (current->getType() == ObjectTypes::function)
 			{
-				patchFileStream << " " << getParametersString(current->getParameters());
+				patchFileStream << " " << GetParametersString(current->getParameters());
 			}
 		}
 
@@ -64,11 +64,11 @@ bool FileHandler::makePatchList(const QString &path, const PatchList &patchList)
 	return true;
 }
 
-bool FileHandler::makeDependencyList(const QString &path, const PatchList &dependencyList)
+bool FileHandler::MakeDependencyList(const QString &path, const PatchList &dependency_list)
 {
 	const QDir patchDir(path);
 	QFile tempFile(patchDir.absoluteFilePath("temp.dpn"));
-	QFile file(patchDir.absoluteFilePath(dependencyListName));
+	QFile file(patchDir.absoluteFilePath(dependency_list_name));
 
 	if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::NewOnly))
 	{
@@ -77,10 +77,10 @@ bool FileHandler::makeDependencyList(const QString &path, const PatchList &depen
 
 	QTextStream dependencyFileStream(&tempFile);
 
-	for (const auto current : dependencyList)
+	for (const auto current : dependency_list)
 	{
 		dependencyFileStream << current->getSchema() << " " << current->getName() << " "
-			<< ObjectTypes::typeNames.value(current->getType()) << endl;
+			<< ObjectTypes::type_names.value(current->getType()) << endl;
 	}
 
 	tempFile.close();
@@ -91,19 +91,19 @@ bool FileHandler::makeDependencyList(const QString &path, const PatchList &depen
 		return false;
 	}
 
-	auto temp = tempFile.rename(patchDir.absoluteFilePath(dependencyListName));
+	auto temp = tempFile.rename(patchDir.absoluteFilePath(dependency_list_name));
 	return true;
 }
 
 // Returns PatchList object parsed from object list file
-PatchList FileHandler::parseObjectList(const QString &path, bool &isSuccessful)
+PatchList FileHandler::ParseObjectList(const QString &path, bool &is_successful)
 {
 	const QDir patchDir(path);
-	QFile file(patchDir.absoluteFilePath(objectListName));
+	QFile file(patchDir.absoluteFilePath(object_list_name));
 
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		isSuccessful = false;
+		is_successful = false;
 		return PatchList();
 	}
 
@@ -129,7 +129,7 @@ PatchList FileHandler::parseObjectList(const QString &path, bool &isSuccessful)
 			const auto splitResult = readString.split(" ", QString::SkipEmptyParts);
 			schemaName = splitResult.at(0);
 			name = splitResult.at(1);
-			type = ObjectTypes::typeNames.key(splitResult.at(2));
+			type = ObjectTypes::type_names.key(splitResult.at(2));
 		}
 		else if (QRegExp("script ([^ ])+( )*").exactMatch(readString))
 		{
@@ -155,27 +155,27 @@ PatchList FileHandler::parseObjectList(const QString &path, bool &isSuccessful)
 		else
 		{
 			file.close();
-			isSuccessful = false;
+			is_successful = false;
 			return PatchList();
 		}
 
-		objectList.add(type, schemaName, name, parameters);
+		objectList.Add(type, schemaName, name, parameters);
 	}
 
 	file.close();
-	isSuccessful = true;
+	is_successful = true;
 	return objectList;
 }
 
 // Returns PatchList object parsed from dependency list file
-PatchList FileHandler::parseDependencyList(const QString &path, bool &isSuccessful)
+PatchList FileHandler::ParseDependencyList(const QString &path, bool &is_successful)
 {
 	const QDir patchDir(path);
-	QFile file(patchDir.absoluteFilePath(dependencyListName));
+	QFile file(patchDir.absoluteFilePath(dependency_list_name));
 
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		isSuccessful = false;
+		is_successful = false;
 		return PatchList();
 	}
 
@@ -200,43 +200,43 @@ PatchList FileHandler::parseDependencyList(const QString &path, bool &isSuccessf
 			const auto splitResult = readString.split(" ", QString::SkipEmptyParts);
 			schemaName = splitResult.at(0);
 			name = splitResult.at(1);
-			type = ObjectTypes::typeNames.key(splitResult.at(2));
+			type = ObjectTypes::type_names.key(splitResult.at(2));
 		}
 		else
 		{
 			file.close();
-			isSuccessful = false;
+			is_successful = false;
 			return PatchList();
 		}
 
-		dependencyList.add(type, schemaName, name, QStringList());
+		dependencyList.Add(type, schemaName, name, QStringList());
 	}
 
 	file.close();
-	isSuccessful = true;
+	is_successful = true;
 	return dependencyList;
 }
 
 // Getter for patchListName
-QString FileHandler::getPatchListName()
+QString FileHandler::GetPatchListName()
 {
-	return patchListName;
+	return patch_list_name;
 }
 
 // Getter for dependencyListName
-QString FileHandler::getDependencyListName()
+QString FileHandler::GetDependencyListName()
 {
-	return dependencyListName;
+	return dependency_list_name;
 }
 
 // Getter for objectListName
-QString FileHandler::getObjectListName()
+QString FileHandler::GetObjectListName()
 {
-	return objectListName;
+	return object_list_name;
 }
 
 // Returns formatted parameters string made from list of parameters
-QString FileHandler::getParametersString(const QStringList &parameters)
+QString FileHandler::GetParametersString(const QStringList &parameters)
 {
 	QString result = "( ";
 

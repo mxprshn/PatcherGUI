@@ -18,14 +18,14 @@
 InstallerWidget::InstallerWidget(QWidget *parent)
 	: QWidget(parent)
 	, ui(new Ui::InstallerWidget)
-	, isPatchOpened(false)
+	, is_patch_opened(false)
 {
 	ui->setupUi(this);
 
 	ui->installInfoLabel->setText("");
 	ui->checkButton->setDisabled(true);
 	ui->installButton->setDisabled(true);
-	setReadyToOpen();
+	SetReadyToOpen();
 
 	connect(ui->checkButton, SIGNAL(clicked()), this, SLOT(onCheckButtonClicked()));
 	connect(ui->installButton, SIGNAL(clicked()), this, SLOT(onInstallButtonClicked()));
@@ -40,15 +40,15 @@ InstallerWidget::~InstallerWidget()
 }
 
 // Checks database connection, shows error message and requests connection
-bool InstallerWidget::checkConnection()
+bool InstallerWidget::CheckConnection()
 {
-	if (!DatabaseProvider::isConnected())
+	if (!DatabaseProvider::IsConnected())
 	{
 		QApplication::beep();
 		QMessageBox::warning(this, "Database error"
 			, "No connection to database"
 			, QMessageBox::Ok, QMessageBox::Ok);
-		emit connectionRequested();
+		emit ConnectionRequested();
 		return false;
 	}
 
@@ -56,7 +56,7 @@ bool InstallerWidget::checkConnection()
 }
 
 // Sets elements of interface which is ready to open patch
-void InstallerWidget::setReadyToOpen()
+void InstallerWidget::SetReadyToOpen()
 {
 	ui->patchPathEdit->setPlaceholderText("Patch folder path (leave empty to open in explorer)");
 	ui->openPatchButton->setText("Open");
@@ -65,10 +65,10 @@ void InstallerWidget::setReadyToOpen()
 }
 
 // Fills list widget of patch objects with information from patch 
-bool InstallerWidget::initPatchList(const QString &path)
+bool InstallerWidget::InitPatchList(const QString &path)
 {
 	auto isSuccessful = false;
-	const auto objectList = FileHandler::parseObjectList(path, isSuccessful);
+	const auto objectList = FileHandler::ParseObjectList(path, isSuccessful);
 
 	if (!isSuccessful)
 	{
@@ -78,7 +78,7 @@ bool InstallerWidget::initPatchList(const QString &path)
 	for (const auto current : objectList)
 	{
 		const auto type = current->getType();
-		ui->patchListWidget->add(type, current->getSchema(), current->getName()
+		ui->patchListWidget->Add(type, current->getSchema(), current->getName()
 			+ QString(type == ObjectTypes::function ? "(" + current->getParameters().join(",") + ")" : ""), false);
 	}
 
@@ -87,10 +87,10 @@ bool InstallerWidget::initPatchList(const QString &path)
 }
 
 // Fills list widget of dependencies with information from patch 
-bool InstallerWidget::initDependencyList(const QString &path)
+bool InstallerWidget::InitDependencyList(const QString &path)
 {
 	auto isSuccessful = false;
-	const auto dependencyList = FileHandler::parseDependencyList(path, isSuccessful);
+	const auto dependencyList = FileHandler::ParseDependencyList(path, isSuccessful);
 
 	if(!isSuccessful)
 	{
@@ -99,39 +99,39 @@ bool InstallerWidget::initDependencyList(const QString &path)
 
 	for (const auto current : dependencyList)
 	{
-		ui->dependencyListWidget->add(current->getType(), current->getSchema(), current->getName());
+		ui->dependencyListWidget->Add(current->getType(), current->getSchema(), current->getName());
 	}
 
 	return true;
 }
 
 // Sets all interface elements affected by patch opening to default state
-void InstallerWidget::clearCurrentPatch()
+void InstallerWidget::ClearCurrentPatch()
 {
-	patchDir = QDir();
-	ui->dependencyListWidget->clear();
+	patch_dir = QDir();
+	ui->dependencyListWidget->Clear();
 	ui->patchListWidget->clear();
 	ui->patchPathEdit->setPlaceholderText("Patch folder path");
 	ui->patchPathEdit->setEnabled(true);
 	ui->checkButton->setDisabled(true);
 	ui->installButton->setDisabled(true);
 	ui->installInfoLabel->setText("");
-	setReadyToOpen();
-	isPatchOpened = false;
+	SetReadyToOpen();
+	is_patch_opened = false;
 }
 
 // Handles open button click
 // Opens patch list files if possible and sets interface elements to appropriate state
-void InstallerWidget::onOpenButtonClicked()
+void InstallerWidget::OnOpenButtonClicked()
 {
-	if (isPatchOpened)
+	if (is_patch_opened)
 	{
 		const auto dialogResult = QMessageBox::question(this, "Close", "Are you sure to close current patch?"
 			, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
 
 		if (dialogResult == QMessageBox::Ok)
 		{
-			clearCurrentPatch();
+			ClearCurrentPatch();
 		}
 		
 		return;
@@ -139,61 +139,61 @@ void InstallerWidget::onOpenButtonClicked()
 
 	if (ui->patchPathEdit->text().isEmpty())
 	{
-		patchDir.setPath(QFileDialog::getExistingDirectory(this, "Choose patch directory"));
+		patch_dir.setPath(QFileDialog::getExistingDirectory(this, "Choose patch directory"));
 
-		if (patchDir.path().isEmpty())
+		if (patch_dir.path().isEmpty())
 		{
-			clearCurrentPatch();
+			ClearCurrentPatch();
 			return;
 		}
 	}
 	else
 	{
-		patchDir.setPath(ui->patchPathEdit->text());
+		patch_dir.setPath(ui->patchPathEdit->text());
 
-		if (!patchDir.exists())
+		if (!patch_dir.exists())
 		{
 			QApplication::beep();
 			QMessageBox::warning(this, "Open error", "Patch directory does not exist"
 				, QMessageBox::Ok, QMessageBox::Ok);
-			clearCurrentPatch();
+			ClearCurrentPatch();
 			return;
 		}
 	}
 
-	if (!patchDir.exists(FileHandler::getObjectListName()))
+	if (!patch_dir.exists(FileHandler::GetObjectListName()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", FileHandler::getObjectListName() + " does not exist in the patch directory"
+		QMessageBox::warning(this, "Open error", FileHandler::GetObjectListName() + " does not exist in the patch directory"
 			, QMessageBox::Ok, QMessageBox::Ok);
-		clearCurrentPatch();
+		ClearCurrentPatch();
 		return;
 	}
 
-	if (!patchDir.exists(FileHandler::getDependencyListName()))
+	if (!patch_dir.exists(FileHandler::GetDependencyListName()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", FileHandler::getDependencyListName() + " does not exist in the patch directory"
+		QMessageBox::warning(this, "Open error", FileHandler::GetDependencyListName() + " does not exist in the patch directory"
 			, QMessageBox::Ok, QMessageBox::Ok);
-		clearCurrentPatch();
+		ClearCurrentPatch();
 		return;
 	}
 
-	if (!initPatchList(patchDir.absolutePath()))
+	if (!InitPatchList(patch_dir.absolutePath()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::getObjectListName()
+		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::GetObjectListName()
 			, QMessageBox::Ok, QMessageBox::Ok);
-		clearCurrentPatch();
+		ClearCurrentPatch();
 		return;
 	}
 
-	if (!initDependencyList(patchDir.absolutePath()))
+	if (!InitDependencyList(patch_dir.absolutePath()))
 	{
 		QApplication::beep();
-		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::getDependencyListName()
+		QMessageBox::warning(this, "Open error", "Incorrect file " + FileHandler::GetDependencyListName()
 			, QMessageBox::Ok, QMessageBox::Ok);
-		clearCurrentPatch();
+		ClearCurrentPatch();
 		return;
 	}
 
@@ -208,30 +208,30 @@ void InstallerWidget::onOpenButtonClicked()
 	}
 
 	ui->patchPathEdit->clear();
-	ui->patchPathEdit->setPlaceholderText("Opened patch: " + patchDir.absolutePath());
+	ui->patchPathEdit->setPlaceholderText("Opened patch: " + patch_dir.absolutePath());
 	ui->patchPathEdit->setDisabled(true);
 	ui->openPatchButton->setText("Close");
 	ui->openPatchButton->setIcon(QIcon(":/images/close.svg"));
 	ui->openPatchButton->setIconSize(QSize(12, 12));
-	isPatchOpened = true;
+	is_patch_opened = true;
 }
 
 // Handles check button click
 // Launches dependency check and shows information about its result
-void InstallerWidget::onCheckButtonClicked()
+void InstallerWidget::OnCheckButtonClicked()
 {
-	if (!checkConnection())
+	if (!CheckConnection())
 	{
 		return;
 	}
 
-	if (startDependencyCheck())
+	if (StartDependencyCheck())
 	{
 		ui->checkButton->setDisabled(true);
 
 		QApplication::beep();
 
-		if (!ui->dependencyListWidget->getAreAllSatisfied())
+		if (!ui->dependencyListWidget->GetAreAllSatisfied())
 		{
 			QMessageBox::warning(this, "Verification completed"
 				, "Verification completed. Not all dependencies are found. If you want to continue the installation, "
@@ -256,14 +256,14 @@ void InstallerWidget::onCheckButtonClicked()
 
 // Handles install button click
 // Launches patch installation and shows information about its result
-void InstallerWidget::onInstallButtonClicked()
+void InstallerWidget::OnInstallButtonClicked()
 {
-	if (!checkConnection())
+	if (!CheckConnection())
 	{
 		return;
 	}
 
-	if (!ui->dependencyListWidget->getAreAllSatisfied())
+	if (!ui->dependencyListWidget->GetAreAllSatisfied())
 	{
 		QApplication::beep();
 		const auto dialogResult = QMessageBox::warning(this, "Unsafe installation"
@@ -277,9 +277,9 @@ void InstallerWidget::onInstallButtonClicked()
 		}
 	}
 
-	if (InstallerHandler::installPatch(DatabaseProvider::database()
-		, DatabaseProvider::user(), DatabaseProvider::password(), DatabaseProvider::host()
-		, DatabaseProvider::port(), patchDir.absolutePath()))
+	if (InstallerHandler::InstallPatch(DatabaseProvider::Database()
+		, DatabaseProvider::User(), DatabaseProvider::Password(), DatabaseProvider::Host()
+		, DatabaseProvider::Port(), patch_dir.absolutePath()))
 	{
 		QApplication::beep();
 		QMessageBox::information(this, "Installation completed"
@@ -297,11 +297,11 @@ void InstallerWidget::onInstallButtonClicked()
 
 // Handles amount of checked dependencies change
 // Shows appropriate information and enables install option if all dependencies are checked
-void InstallerWidget::onItemCheckChanged()
+void InstallerWidget::OnItemCheckChanged()
 {
-	if (ui->dependencyListWidget->getCheckedCount() == ui->dependencyListWidget->topLevelItemCount())
+	if (ui->dependencyListWidget->GetCheckedCount() == ui->dependencyListWidget->topLevelItemCount())
 	{
-		if (!ui->dependencyListWidget->getAreAllSatisfied())
+		if (!ui->dependencyListWidget->GetAreAllSatisfied())
 		{
 			ui->installInfoLabel->setText("Some dependencies are not found!");
 		}
@@ -320,38 +320,38 @@ void InstallerWidget::onItemCheckChanged()
 }
 
 // Handles start of disconnection from database
-void InstallerWidget::onDisconnectionStarted()
+void InstallerWidget::OnDisconnectionStarted()
 {
-	if (!isPatchOpened)
+	if (!is_patch_opened)
 	{
 		return;
 	}
 
-	ui->dependencyListWidget->clearCheck();
+	ui->dependencyListWidget->ClearCheck();
 	ui->checkButton->setEnabled(true);
 	ui->installButton->setDisabled(true);
 	ui->installInfoLabel->setText("");
 }
 
-bool InstallerWidget::startDependencyCheck()
+bool InstallerWidget::StartDependencyCheck()
 {
 	PatchList dependencyList;
 
 	for (auto i = 0; i < ui->dependencyListWidget->topLevelItemCount(); ++i)
 	{
 		const auto currentItem = ui->dependencyListWidget->topLevelItem(i);
-		dependencyList.add(currentItem->data(PatchListWidget::ColumnIndexes::typeColumn, Qt::UserRole).toInt()
+		dependencyList.Add(currentItem->data(PatchListWidget::ColumnIndexes::typeColumn, Qt::UserRole).toInt()
 			, currentItem->text(PatchListWidget::ColumnIndexes::schemaColumn)
 			, currentItem->text(PatchListWidget::ColumnIndexes::nameColumn), QStringList());
 	}
 
-	if (!FileHandler::makeDependencyList(patchDir.absolutePath(), dependencyList))
+	if (!FileHandler::MakeDependencyList(patch_dir.absolutePath(), dependencyList))
 	{
 		return false;
 	}
 
 	auto isSuccessful = false;
-	const auto checkResult = InstallerHandler::checkDependencies(DatabaseProvider::database(), DatabaseProvider::user(), DatabaseProvider::password()
-		, DatabaseProvider::host(), DatabaseProvider::port(), patchDir.absolutePath(), isSuccessful);
-	return isSuccessful && ui->dependencyListWidget->setCheckStatus(checkResult);
+	const auto checkResult = InstallerHandler::CheckDependencies(DatabaseProvider::Database(), DatabaseProvider::User(), DatabaseProvider::Password()
+		, DatabaseProvider::Host(), DatabaseProvider::Port(), patch_dir.absolutePath(), isSuccessful);
+	return isSuccessful && ui->dependencyListWidget->SetCheckStatus(checkResult);
 }

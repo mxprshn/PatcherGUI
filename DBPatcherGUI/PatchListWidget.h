@@ -17,9 +17,8 @@ public:
 	};
 
 	PatchListWidget(QWidget *parent = nullptr);
-	// QStringList itemList() const;
-	bool itemExists(int typeIndex, const QString &schema, const QString &name);
-	void add(int typeIndex, const QString &schema, const QString &name, bool isDraggable);
+	bool ItemExists(int type_index, const QString &schema, const QString &name);
+	void Add(int type_index, const QString &schema, const QString &name, bool is_draggable);
 private:
 	void dropEvent(QDropEvent *event) override;
 };

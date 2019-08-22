@@ -17,7 +17,7 @@ SettingsWindow::SettingsWindow(QWidget *parent)
 }
 
 // Initializes settings dialog with current settings and opens it
-void SettingsWindow::openSettingsDialog(const QSettings &settings)
+void SettingsWindow::OpenSettingsDialog(const QSettings &settings)
 {
 	ui->templatesEdit->setText(settings.value("templates", "Templates.ini").toString());
 	open();
@@ -25,7 +25,7 @@ void SettingsWindow::openSettingsDialog(const QSettings &settings)
 }
 
 // Saves settings entered by user if they are valid
-void SettingsWindow::saveSettings(QSettings &settings)
+void SettingsWindow::SaveSettings(QSettings &settings)
 {
 	const QFileInfo templatesFile(ui->templatesEdit->text());
 

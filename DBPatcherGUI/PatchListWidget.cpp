@@ -22,13 +22,13 @@ PatchListWidget::PatchListWidget(QWidget *parent)
 }
 
 // Checks object for existence in the list
-bool PatchListWidget::itemExists(int typeIndex, const class QString &schema, const class QString &name)
+bool PatchListWidget::ItemExists(int type_index, const class QString &schema, const class QString &name)
 {
 	const auto foundItems = findItems(name, Qt::MatchFixedString, nameColumn);
 
 	for (const auto current : foundItems)
 	{
-		if (current->text(typeColumn) == ObjectTypes::typeNames.value(typeIndex) && current->text(schemaColumn) == schema)
+		if (current->text(typeColumn) == ObjectTypes::type_names.value(type_index) && current->text(schemaColumn) == schema)
 		{
 			return true;
 		}
@@ -38,17 +38,17 @@ bool PatchListWidget::itemExists(int typeIndex, const class QString &schema, con
 }
 
 // Adds a new object to list
-void PatchListWidget::add(int typeIndex, const class QString& schema, const class QString& name, bool isDraggable)
+void PatchListWidget::Add(int type_index, const class QString& schema, const class QString& name, bool is_draggable)
 {
 	auto *newItem = new QTreeWidgetItem(this);
 
-	newItem->setIcon(typeColumn, QIcon(ObjectTypes::typeIcons.value(typeIndex)));
-	newItem->setText(typeColumn, ObjectTypes::typeNames.value(typeIndex));
-	newItem->setData(typeColumn, Qt::UserRole, typeIndex);
+	newItem->setIcon(typeColumn, QIcon(ObjectTypes::type_icons.value(type_index)));
+	newItem->setText(typeColumn, ObjectTypes::type_names.value(type_index));
+	newItem->setData(typeColumn, Qt::UserRole, type_index);
 	newItem->setText(schemaColumn, schema);
 	newItem->setText(nameColumn, name);
 
-	if (isDraggable)
+	if (is_draggable)
 	{
 		newItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
 	}

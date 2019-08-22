@@ -18,10 +18,10 @@ class SettingsWindow : public QDialog
 public:
 	SettingsWindow(QWidget *parent = nullptr);
 	~SettingsWindow();
-	void openSettingsDialog(const QSettings &settings);
-	void saveSettings(QSettings &settings);
+	void OpenSettingsDialog(const QSettings &settings);
+	void SaveSettings(QSettings &settings);
 private:
 	Ui::SettingsWindow *ui;
 signals:
-	void saveButtonClicked();
+	void SaveButtonClicked();
 };

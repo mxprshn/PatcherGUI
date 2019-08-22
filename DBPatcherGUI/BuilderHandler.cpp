@@ -4,43 +4,43 @@
 #include <QIODevice>
 
 const QString BuilderHandler::program = "PatchBuilder_exe.exe";
-QString BuilderHandler::templatesPath = "Templates.ini";
-QIODevice *BuilderHandler::outputDevice = nullptr;
+QString BuilderHandler::templates_path = "Templates.ini";
+QIODevice *BuilderHandler::output_device = nullptr;
 
 // Sets new log output device
-void BuilderHandler::setOutputDevice(QIODevice &newDevice)
+void BuilderHandler::SetOutputDevice(QIODevice &new_device)
 {
-	outputDevice = &newDevice;
+	output_device = &new_device;
 }
 
-void BuilderHandler::setTemplatesFile(const QString &path)
+void BuilderHandler::SetTemplatesFile(const QString &path)
 {
-	templatesPath = path;
+	templates_path = path;
 }
 
 // Launches and manages Builder process
 // Returns result of patch build
-bool BuilderHandler::buildPatch(const QString& database, const QString& user, const QString& password
-	, const QString& server, int port, const QString &patchDir, const QString &buildListDir)
+bool BuilderHandler::BuildPatch(const QString& database, const QString& user, const QString& password
+	, const QString& server, int port, const QString &patch_dir, const QString &build_list_dir)
 {
 	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server).arg(port).arg(database).arg(user).arg(password);
-	const QStringList arguments = { "-d", patchDir, "-p", buildListDir, "-c", connectionInfo, "-t", templatesPath };
+	const QStringList arguments = { "-d", patch_dir, "-p", build_list_dir, "-c", connectionInfo, "-t", templates_path };
 
 	QProcess builderProcess;
 
 	connect(&builderProcess, &QProcess::readyReadStandardOutput, [&builderProcess]()
 	{
-		if (outputDevice)
+		if (output_device)
 		{
-			outputDevice->write(builderProcess.readAllStandardOutput());
+			output_device->write(builderProcess.readAllStandardOutput());
 		}
 	});
 
 	connect(&builderProcess, &QProcess::readyReadStandardError, [&builderProcess]()
 	{
-		if (outputDevice)
+		if (output_device)
 		{
-			outputDevice->write(builderProcess.readAllStandardError());
+			output_device->write(builderProcess.readAllStandardError());
 		}
 	});
 

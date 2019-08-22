@@ -5,17 +5,17 @@
 #include <QIODevice>
 
 const QString InstallerHandler::program = "PatchInstaller_exe.exe";
-QIODevice *InstallerHandler::outputDevice = nullptr;
+QIODevice *InstallerHandler::output_device = nullptr;
 
 // Sets new log output device
-void InstallerHandler::setOutputDevice(QIODevice &newDevice)
+void InstallerHandler::SetOutputDevice(QIODevice &new_device)
 {
-	outputDevice = &newDevice;
+	output_device = &new_device;
 }
 
 // Launches and manages patch installation process
 // Returns result of installation
-bool InstallerHandler::installPatch(const QString &database, const QString &user, const QString &password,
+bool InstallerHandler::InstallPatch(const QString &database, const QString &user, const QString &password,
 	const QString &server, int port, const QString &path)
 {
 	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
@@ -25,9 +25,9 @@ bool InstallerHandler::installPatch(const QString &database, const QString &user
 
 	connect(&installerProcess, &QProcess::readyReadStandardError, [&installerProcess] ()
 	{
-		if (outputDevice)
+		if (output_device)
 		{
-			outputDevice->write(installerProcess.readAllStandardError());
+			output_device->write(installerProcess.readAllStandardError());
 		}
 	});
 
@@ -48,8 +48,8 @@ bool InstallerHandler::installPatch(const QString &database, const QString &user
 
 // Launches and manages dependency check process
 // Returns result of check as bit array
-QBitArray InstallerHandler::checkDependencies(const QString &database, const QString &user, const QString &password,
-	const QString &server, int port, const QString &path, bool &isSuccessful)
+QBitArray InstallerHandler::CheckDependencies(const QString &database, const QString &user, const QString &password,
+	const QString &server, int port, const QString &path, bool &is_successful)
 {
 	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
 	const QStringList arguments = { connectionInfo, "check", path };
@@ -58,9 +58,9 @@ QBitArray InstallerHandler::checkDependencies(const QString &database, const QSt
 
 	connect(&installerProcess, &QProcess::readyReadStandardError, [&installerProcess] ()
 	{
-		if (outputDevice)
+		if (output_device)
 		{
-			outputDevice->write(installerProcess.readAllStandardError());
+			output_device->write(installerProcess.readAllStandardError());
 		}
 	});
 
@@ -70,13 +70,13 @@ QBitArray InstallerHandler::checkDependencies(const QString &database, const QSt
 
 	if (!installerProcess.waitForStarted())
 	{
-		isSuccessful = false;
+		is_successful = false;
 		return checkResult;
 	}
 
 	if (!installerProcess.waitForFinished() || installerProcess.exitCode() != 0)
 	{
-		isSuccessful = false;
+		is_successful = false;
 		return checkResult;
 	}
 
@@ -100,13 +100,13 @@ QBitArray InstallerHandler::checkDependencies(const QString &database, const QSt
 			}
 			default:
 			{
-				isSuccessful = false;
+				is_successful = false;
 				checkResult.clear();
 				return checkResult;
 			}
 		}
 	}
 
-	isSuccessful = true;
+	is_successful = true;
 	return checkResult;
 }
