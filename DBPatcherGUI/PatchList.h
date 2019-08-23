@@ -14,8 +14,8 @@ public:
 	PatchList& operator=(const PatchList &other);
 	void Add(int type_index, const QString &schema_name, const QString &name, const QStringList &parameters = {});
 	int Count() const;
-	QList<PatchListElement*>::const_iterator Begin() const;
-	QList<PatchListElement*>::const_iterator End() const;
+	QList<PatchListElement*>::const_iterator begin() const;
+	QList<PatchListElement*>::const_iterator end() const;
 	void Clear();
 private:
 	void Swap(PatchList &other);

@@ -33,10 +33,11 @@ private:
 	bool StartDependencyCheck();
 signals:
 	void ConnectionRequested();
+public slots:
+	void OnDisconnectionStarted();
 private slots:
 	void OnOpenButtonClicked();
 	void OnCheckButtonClicked();
 	void OnInstallButtonClicked();
 	void OnItemCheckChanged();
-	void OnDisconnectionStarted();
 };

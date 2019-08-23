@@ -51,12 +51,12 @@ int PatchList::Count() const
 }
 
 // Iterators used in range-based 'for' loop
-QList<class PatchListElement*>::const_iterator PatchList::Begin() const
+QList<class PatchListElement*>::const_iterator PatchList::begin() const
 {
 	return elements->constBegin();
 }
 
-QList<class PatchListElement*>::const_iterator PatchList::End() const
+QList<class PatchListElement*>::const_iterator PatchList::end() const
 {
 	return elements->constEnd();
 }

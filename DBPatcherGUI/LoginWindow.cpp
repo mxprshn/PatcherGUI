@@ -13,9 +13,9 @@ LoginWindow::LoginWindow(QWidget *parent)
 	Clear();
 	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 
-	connect(ui->buttonBox, SIGNAL(accepted()), this, SIGNAL(connectButtonClicked()));
-	connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-	connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(clear()));
+	connect(ui->button_box, &QDialogButtonBox::accepted, this, &LoginWindow::ConnectButtonClicked);
+	connect(ui->button_box, &QDialogButtonBox::rejected, this, &LoginWindow::close);
+	connect(ui->button_box, &QDialogButtonBox::rejected, this, &LoginWindow::Clear);
 }
 
 // Destructor with ui object deleting
@@ -27,40 +27,40 @@ LoginWindow::~LoginWindow()
 // Getter for host input
 QString LoginWindow::GetHostInput() const
 {
-	return ui->hostLineEdit->text();
+	return ui->host_line_edit->text();
 }
 
 // Getter for port input
 int LoginWindow::GetPortInput() const
 {
-	return ui->portLineEdit->text().toInt();
+	return ui->port_line_edit->text().toInt();
 }
 
 // Getter for database name input
 QString LoginWindow::GetDatabaseInput() const
 {
-	return ui->databaseLineEdit->text();
+	return ui->database_line_edit->text();
 }
 
 // Getter for username input
 QString LoginWindow::GetUsernameInput() const
 {
-	return ui->usernameLineEdit->text();
+	return ui->username_line_edit->text();
 }
 
 // Getter for password input
 QString LoginWindow::GetPasswordInput() const
 {
-	return ui->passwordLineEdit->text();
+	return ui->password_line_edit->text();
 }
 
 // Sets input lines to default state
 void LoginWindow::Clear()
 {
-	ui->hostLineEdit->clear();
-	ui->portLineEdit->setText("5432");
-	ui->databaseLineEdit->clear();
-	ui->usernameLineEdit->clear();
-	ui->passwordLineEdit->clear();
-	ui->hostLineEdit->setFocus();
+	ui->host_line_edit->clear();
+	ui->port_line_edit->setText("5432");
+	ui->database_line_edit->clear();
+	ui->username_line_edit->clear();
+	ui->password_line_edit->clear();
+	ui->host_line_edit->setFocus();
 }

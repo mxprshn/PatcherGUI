@@ -23,35 +23,35 @@ void BuilderHandler::SetTemplatesFile(const QString &path)
 bool BuilderHandler::BuildPatch(const QString& database, const QString& user, const QString& password
 	, const QString& server, int port, const QString &patch_dir, const QString &build_list_dir)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server).arg(port).arg(database).arg(user).arg(password);
-	const QStringList arguments = { "-d", patch_dir, "-p", build_list_dir, "-c", connectionInfo, "-t", templates_path };
+	const auto connection_info = QString("%1:%2:%3:%4:%5").arg(server).arg(port).arg(database).arg(user).arg(password);
+	const QStringList arguments = { "-d", patch_dir, "-p", build_list_dir, "-c", connection_info, "-t", templates_path };
 
-	QProcess builderProcess;
+	QProcess builder_process;
 
-	connect(&builderProcess, &QProcess::readyReadStandardOutput, [&builderProcess]()
+	connect(&builder_process, &QProcess::readyReadStandardOutput, [&builder_process]()
 	{
 		if (output_device)
 		{
-			output_device->write(builderProcess.readAllStandardOutput());
+			output_device->write(builder_process.readAllStandardOutput());
 		}
 	});
 
-	connect(&builderProcess, &QProcess::readyReadStandardError, [&builderProcess]()
+	connect(&builder_process, &QProcess::readyReadStandardError, [&builder_process]()
 	{
 		if (output_device)
 		{
-			output_device->write(builderProcess.readAllStandardError());
+			output_device->write(builder_process.readAllStandardError());
 		}
 	});
 
-	builderProcess.start(program, arguments);
+	builder_process.start(program, arguments);
 
-	if (!builderProcess.waitForStarted())
+	if (!builder_process.waitForStarted())
 	{
 		return false;
 	}
 
-	if (!builderProcess.waitForFinished() || builderProcess.exitCode() != 0)
+	if (!builder_process.waitForFinished() || builder_process.exitCode() != 0)
 	{
 		return false;
 	}

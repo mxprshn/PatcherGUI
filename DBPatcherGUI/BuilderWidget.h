@@ -35,6 +35,9 @@ private:
 signals:
 	void ConnectionRequested();
 	void ItemCountChanged();
+public slots:
+	void OnConnected();
+	void OnDisconnectionStarted();
 private slots:
 	void OnAddButtonClicked();
 	void OnBuildButtonClicked();
@@ -48,6 +51,4 @@ private slots:
 	void OnCurrentSchemaChanged(const QString &schema);
 	void OnNameTextChanged(const QString &input);
 	void OnItemCountChanged();
-	void OnConnected();
-	void OnDisconnectionStarted();
 };

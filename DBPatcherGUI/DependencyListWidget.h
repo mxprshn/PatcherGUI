@@ -11,17 +11,17 @@ public:
 
 	enum ColumnIndexes
 	{
-		typeColumn,
-		schemaColumn,
-		nameColumn,
-		statusColumn
+		type_column,
+		schema_column,
+		name_column,
+		status_column
 	};
 
 	enum CheckStatus
 	{
-		waitingForCheck,
+		waiting_for_check,
 		satisfied,
-		notSatisfied
+		not_satisfied
 	};
 
 	DependencyListWidget(QWidget *parent = nullptr);

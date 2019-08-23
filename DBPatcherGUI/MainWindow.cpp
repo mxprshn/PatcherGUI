@@ -11,6 +11,7 @@
 
 #include <QMessageBox>
 #include <QLabel>
+#include <QScrollBar>
 
 // Widget constructor, taking pointer to parent widget
 // When parent widget is being deleted, all its children are deleted automatically
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 	ReadSettings();
-	log_output_device->SetTextEdit(ui->logTextEdit);
+	log_output_device->SetTextEdit(ui->log_text_edit);
 	log_output_device->open(QIODevice::WriteOnly);
 	InstallerHandler::SetOutputDevice(*log_output_device);
 	BuilderHandler::SetOutputDevice(*log_output_device);
@@ -34,16 +35,16 @@ MainWindow::MainWindow(QWidget *parent)
 	disconnect_action->setDisabled(true);
 	database_information = new QLabel("Connect to database!", this);
 
-	ui->databaseMenu->addAction(connect_action);
-	ui->databaseMenu->addAction(disconnect_action);
+	ui->database_menu->addAction(connect_action);
+	ui->database_menu->addAction(disconnect_action);
 
 	connect_action->setShortcut(QKeySequence("Ctrl+O"));
 	disconnect_action->setShortcut(QKeySequence("Ctrl+W"));
 
-	ui->viewMenu->addAction(QIcon(":/images/hammer.svg"),"Build", [=]() { ui->tabWidget->setCurrentWidget(ui->builderTab); }, QKeySequence("Ctrl+B"));
-	ui->viewMenu->addAction(QIcon(":/images/install.svg"), "Install", [=]() { ui->tabWidget->setCurrentWidget(ui->installerTab); }, QKeySequence("Ctrl+I"));
-	ui->viewMenu->addAction("Settings...", [=]() { settings_window->OpenSettingsDialog(settings); });
-	ui->viewMenu->addAction("About...", [=]()
+	ui->view_menu->addAction(QIcon(":/images/hammer.svg"),"Build", [=]() { ui->tab_widget->setCurrentWidget(ui->builder_tab); }, QKeySequence("Ctrl+B"));
+	ui->view_menu->addAction(QIcon(":/images/install.svg"), "Install", [=]() { ui->tab_widget->setCurrentWidget(ui->installer_tab); }, QKeySequence("Ctrl+I"));
+	ui->view_menu->addAction("Settings...", [=]() { settings_window->OpenSettingsDialog(settings); });
+	ui->view_menu->addAction("About...", [=]()
 	{
 		QMessageBox::about(this, "PostgreSQL database patcher",
 			"PostgreSQL database patcher. "
@@ -51,17 +52,17 @@ MainWindow::MainWindow(QWidget *parent)
 			"Icons made by: Vitaly Gorbachev, Smashicons, Pixelmeetup, Freepik, Roundicons, Good Ware from www.flaticon.com and www.icons8.com. 2019");
 	});
 
-	ui->mainToolBar->addAction(connect_action);
-	ui->mainToolBar->addWidget(database_information);
+	ui->main_tool_bar->addAction(connect_action);
+	ui->main_tool_bar->addWidget(database_information);
 
-	connect(login_window, SIGNAL(connectButtonClicked()), this, SLOT(onDialogConnectButtonClicked()));
-	connect(connect_action, SIGNAL(triggered()), this, SLOT(onConnectionRequested()));
-	connect(disconnect_action, SIGNAL(triggered()), this, SLOT(onDisconnectButtonClicked()));
-	connect(ui->builderTab, SIGNAL(connectionRequested()), this, SLOT(onConnectionRequested()));
-	connect(ui->installerTab, SIGNAL(connectionRequested()), this, SLOT(onConnectionRequested()));
-	connect(this, SIGNAL(connected()), ui->builderTab, SLOT(onConnected()));
-	connect(this, SIGNAL(disconnectionStarted()), ui->builderTab, SLOT(onDisconnectionStarted()));
-	connect(this, SIGNAL(disconnectionStarted()), ui->installerTab, SLOT(onDisconnectionStarted()));
+	connect(login_window, &LoginWindow::ConnectButtonClicked, this, &MainWindow::OnDialogConnectButtonClicked);
+	connect(connect_action, &QAction::triggered, this, &MainWindow::OnConnectionRequested);
+	connect(disconnect_action, &QAction::triggered, this, &MainWindow::OnDisconnectButtonClicked);
+	connect(ui->builder_tab, &BuilderWidget::ConnectionRequested, this, &MainWindow::OnConnectionRequested);
+	connect(ui->installer_tab, &InstallerWidget::ConnectionRequested, this, &MainWindow::OnConnectionRequested);
+	connect(this, &MainWindow::Connected, ui->builder_tab, &BuilderWidget::OnConnected);
+	connect(this, &MainWindow::DisconnectionStarted, ui->builder_tab, &BuilderWidget::OnDisconnectionStarted);
+	connect(this, &MainWindow::DisconnectionStarted, ui->installer_tab, &InstallerWidget::OnDisconnectionStarted);
 	connect(settings_window, &SettingsWindow::SaveButtonClicked, [&]()
 	{
 		settings_window->SaveSettings(settings);
@@ -85,10 +86,10 @@ MainWindow::~MainWindow()
 // Launches database connection and sets appropriate interface elements
 void MainWindow::OnDialogConnectButtonClicked()
 {
-	QString errorMessage = "";
+	QString error_message = "";
 
 	if (DatabaseProvider::Connect(login_window->GetDatabaseInput(), login_window->GetUsernameInput()
-		, login_window->GetPasswordInput(), login_window->GetHostInput(), login_window->GetPortInput(), errorMessage))
+		, login_window->GetPasswordInput(), login_window->GetHostInput(), login_window->GetPortInput(), error_message))
 	{
 		database_information->setText("Connected to \"" + DatabaseProvider::Database() + "\" as \""
 			+ DatabaseProvider::User() + "\"");
@@ -100,7 +101,8 @@ void MainWindow::OnDialogConnectButtonClicked()
 	}
 	else
 	{
-		ui->logTextEdit->append(errorMessage);
+		ui->log_text_edit->append(error_message);
+		ui->log_text_edit->verticalScrollBar()->setValue(ui->log_text_edit->verticalScrollBar()->maximum());
 		QApplication::beep();
 		QMessageBox::warning(this, "Connection error"
 				, "Connection error. See log for details", QMessageBox::Ok, QMessageBox::Ok);
@@ -117,10 +119,10 @@ void MainWindow::OnConnectionRequested()
 // Launches database disconnection and sets appropriate interface elements
 void MainWindow::OnDisconnectButtonClicked()
 {
-	const auto dialogResult = QMessageBox::question(this, "Disconnect from the database", "Do you want to disconnect from the database?"
+	const auto dialog_result = QMessageBox::question(this, "Disconnect from the database", "Do you want to disconnect from the database?"
 		, QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
 
-	if (dialogResult == QMessageBox::Cancel)
+	if (dialog_result == QMessageBox::Cancel)
 	{
 		return;
 	}

@@ -12,26 +12,26 @@ SettingsWindow::SettingsWindow(QWidget *parent)
 	ui->setupUi(this);
 	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 
-	connect(ui->buttonBox, SIGNAL(accepted()), this, SIGNAL(saveButtonClicked()));
-	connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
+	connect(ui->button_box, &QDialogButtonBox::accepted, this, &SettingsWindow::SaveButtonClicked);
+	connect(ui->button_box, &QDialogButtonBox::rejected, this, &SettingsWindow::close);
 }
 
 // Initializes settings dialog with current settings and opens it
 void SettingsWindow::OpenSettingsDialog(const QSettings &settings)
 {
-	ui->templatesEdit->setText(settings.value("templates", "Templates.ini").toString());
+	ui->templates_edit->setText(settings.value("templates", "Templates.ini").toString());
 	open();
-	ui->templatesEdit->deselect();
+	ui->templates_edit->deselect();
 }
 
 // Saves settings entered by user if they are valid
 void SettingsWindow::SaveSettings(QSettings &settings)
 {
-	const QFileInfo templatesFile(ui->templatesEdit->text());
+	const QFileInfo templates_file(ui->templates_edit->text());
 
-	if (templatesFile.suffix() == "ini" && templatesFile.exists())
+	if (templates_file.suffix() == "ini" && templates_file.exists())
 	{
-		settings.setValue("templates", templatesFile.absoluteFilePath());
+		settings.setValue("templates", templates_file.absoluteFilePath());
 		close();
 	}
 	else

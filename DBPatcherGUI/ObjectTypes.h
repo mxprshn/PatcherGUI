@@ -14,7 +14,7 @@ namespace ObjectTypes
 		view,
 		trigger,
 		index,
-		typeCount
+		type_count
 	};
 
 	// Hash for type icon names and type names

@@ -58,28 +58,28 @@ bool DatabaseProvider::Connect(const QString &database, const QString &user, con
 	connection.setHostName(server);
 	connection.setPort(port);
 
-	const auto isConnectionSet = connection.open();
+	const auto is_connection_set = connection.open();
 
-	if (!isConnectionSet)
+	if (!is_connection_set)
 	{
 		error_message = connection.lastError().text();
 	}
 
-	return isConnectionSet;
+	return is_connection_set;
 }
 
 // Disconnects from database
 void DatabaseProvider::Disconnect()
 {
-	const auto connectionName = QSqlDatabase::database().connectionName();
-	auto connection = QSqlDatabase::database(connectionName, false);
+	const auto connection_name = QSqlDatabase::database().connectionName();
+	auto connection = QSqlDatabase::database(connection_name, false);
 
 	if (connection.isOpen())
 	{
 		connection.close();
 	}
 
-	QSqlDatabase::removeDatabase(connectionName);
+	QSqlDatabase::removeDatabase(connection_name);
 }
 
 // Checks table for existence in database

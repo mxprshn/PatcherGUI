@@ -26,38 +26,38 @@ ObjectNameCompleter::ObjectNameCompleter(QObject *parent)
 // Fills model with object name data got from database by type and schema
 void ObjectNameCompleter::Initialize(int type_index, const QString &schema)
 {
-	QString queryText = "";
+	QString query_text = "";
 
 	switch (type_index)
 	{
 		case ObjectTypes::table:
 		{
-			queryText = table_query;
+			query_text = table_query;
 			break;
 		}
 		case ObjectTypes::sequence:
 		{
-			queryText = sequence_query;
+			query_text = sequence_query;
 			break;
 		}
 		case ObjectTypes::function:
 		{
-			queryText = function_query;
+			query_text = function_query;
 			break;
 		}
 		case ObjectTypes::view:
 		{
-			queryText = view_query;
+			query_text = view_query;
 			break;
 		}
 		case ObjectTypes::trigger:
 		{
-			queryText = trigger_query;
+			query_text = trigger_query;
 			break;
 		}
 		case ObjectTypes::index:
 		{
-			queryText = index_query;
+			query_text = index_query;
 			break;
 		}
 		default:
@@ -67,7 +67,7 @@ void ObjectNameCompleter::Initialize(int type_index, const QString &schema)
 	}
 
 	QSqlQuery fetch;
-	fetch.prepare(queryText);
+	fetch.prepare(query_text);
 	fetch.addBindValue(schema);
 	fetch.exec();
 	model->setQuery(fetch);

@@ -11,9 +11,9 @@ public:
 
 	enum ColumnIndexes
 	{
-		typeColumn,
-		schemaColumn,
-		nameColumn
+		type_column,
+		schema_column,
+		name_column
 	};
 
 	PatchListWidget(QWidget *parent = nullptr);

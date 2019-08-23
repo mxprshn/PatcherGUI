@@ -18,27 +18,27 @@ void InstallerHandler::SetOutputDevice(QIODevice &new_device)
 bool InstallerHandler::InstallPatch(const QString &database, const QString &user, const QString &password,
 	const QString &server, int port, const QString &path)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
-	const QStringList arguments = { connectionInfo, "install", path };
+	const auto connection_info = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
+	const QStringList arguments = { connection_info, "install", path };
 
-	QProcess installerProcess;
+	QProcess installer_process;
 
-	connect(&installerProcess, &QProcess::readyReadStandardError, [&installerProcess] ()
+	connect(&installer_process, &QProcess::readyReadStandardError, [&installer_process] ()
 	{
 		if (output_device)
 		{
-			output_device->write(installerProcess.readAllStandardError());
+			output_device->write(installer_process.readAllStandardError());
 		}
 	});
 
-	installerProcess.start(program, arguments);
+	installer_process.start(program, arguments);
 
-	if (!installerProcess.waitForStarted())
+	if (!installer_process.waitForStarted())
 	{
 		return false;
 	}
 
-	if (!installerProcess.waitForFinished() || installerProcess.exitCode() != 0)
+	if (!installer_process.waitForFinished() || installer_process.exitCode() != 0)
 	{
 		return false;
 	}
@@ -51,62 +51,62 @@ bool InstallerHandler::InstallPatch(const QString &database, const QString &user
 QBitArray InstallerHandler::CheckDependencies(const QString &database, const QString &user, const QString &password,
 	const QString &server, int port, const QString &path, bool &is_successful)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
-	const QStringList arguments = { connectionInfo, "check", path };
+	const auto connection_info = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
+	const QStringList arguments = { connection_info, "check", path };
 
-	QProcess installerProcess;
+	QProcess installer_process;
 
-	connect(&installerProcess, &QProcess::readyReadStandardError, [&installerProcess] ()
+	connect(&installer_process, &QProcess::readyReadStandardError, [&installer_process] ()
 	{
 		if (output_device)
 		{
-			output_device->write(installerProcess.readAllStandardError());
+			output_device->write(installer_process.readAllStandardError());
 		}
 	});
 
-	QBitArray checkResult;
+	QBitArray check_result;
 
-	installerProcess.start(program, arguments);
+	installer_process.start(program, arguments);
 
-	if (!installerProcess.waitForStarted())
+	if (!installer_process.waitForStarted())
 	{
 		is_successful = false;
-		return checkResult;
+		return check_result;
 	}
 
-	if (!installerProcess.waitForFinished() || installerProcess.exitCode() != 0)
+	if (!installer_process.waitForFinished() || installer_process.exitCode() != 0)
 	{
 		is_successful = false;
-		return checkResult;
+		return check_result;
 	}
 
-	installerProcess.setReadChannel(QProcess::ProcessChannel::StandardOutput);
-	QByteArray readData = installerProcess.readAll();
-	checkResult.resize(readData.count());
+	installer_process.setReadChannel(QProcess::ProcessChannel::StandardOutput);
+	QByteArray read_data = installer_process.readAll();
+	check_result.resize(read_data.count());
 
-	for (auto i = 0; i < checkResult.count(); ++i)
+	for (auto i = 0; i < check_result.count(); ++i)
 	{
-		switch (readData[i])
+		switch (read_data[i])
 		{
 			case '0':
 			{
-				checkResult[i] = false;
+				check_result[i] = false;
 				break;
 			}
 			case '1':
 			{
-				checkResult[i] = true;
+				check_result[i] = true;
 				break;
 			}
 			default:
 			{
 				is_successful = false;
-				checkResult.clear();
-				return checkResult;
+				check_result.clear();
+				return check_result;
 			}
 		}
 	}
 
 	is_successful = true;
-	return checkResult;
+	return check_result;
 }
