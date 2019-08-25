@@ -51,7 +51,7 @@ bool InstallerHandler::InstallPatch(const QString &database, const QString &user
 QBitArray InstallerHandler::CheckDependencies(const QString &database, const QString &user, const QString &password,
 	const QString &server, int port, const QString &path, bool &is_successful)
 {
-	const auto connection_info = QString("%1:%2:%3:%4:%5").arg(server)	.arg(port).arg(database).arg(user).arg(password);
+	const auto connection_info = QString("%1:%2:%3:%4:%5").arg(server).arg(port).arg(database).arg(user).arg(password);
 	const QStringList arguments = { connection_info, "check", path };
 
 	QProcess installer_process;

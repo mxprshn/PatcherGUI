@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 	, settings("spbu-dreamteam", "Patcher")
 {
 	ui->setupUi(this);
+	ui->tab_widget->setCurrentWidget(ui->builder_tab);
 	ReadSettings();
 	log_output_device->SetTextEdit(ui->log_text_edit);
 	log_output_device->open(QIODevice::WriteOnly);

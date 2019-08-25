@@ -61,19 +61,6 @@ BuilderWidget::BuilderWidget(QWidget *parent)
 	connect(ui->name_edit, SIGNAL(textChanged(const QString&)), this, SLOT(OnNameTextChanged(const QString&)));
 	connect(this, &BuilderWidget::ItemCountChanged, &BuilderWidget::OnItemCountChanged);
 	connect(ui->schema_combo_box, SIGNAL(currentTextChanged(const QString&)), this, SLOT(OnCurrentSchemaChanged(const QString&)));
-
-	/*connect(ui->add_button, SIGNAL(clicked()), this, SLOT(OnAddButtonClicked()));
-	connect(ui->build_button, SIGNAL(clicked()), this, SLOT(OnBuildButtonClicked()));
-	connect(ui->remove_button, SIGNAL(clicked()), this, SLOT(OnRemoveButtonClicked()));
-	connect(ui->build_list_widget, SIGNAL(itemSelectionChanged()), this, SLOT(OnItemSelectionChanged()));
-	connect(ui->type_combo_box, SIGNAL(currentIndexChanged(int)), this, SLOT(OnCurrentTypeChanged(int)));
-	connect(ui->move_up_button, SIGNAL(clicked()), this, SLOT(OnMoveUpButtonClicked()));
-	connect(ui->move_down_button, SIGNAL(clicked()), this, SLOT(OnMoveDownButtonClicked()));
-	connect(ui->clear_button, SIGNAL(clicked()), this, SLOT(OnClearButtonClicked()));
-	connect(ui->explorer_button, SIGNAL(clicked()), this, SLOT(OnExplorerButtonClicked()));
-	connect(ui->name_edit, SIGNAL(textChanged(const QString&)), this, SLOT(OnNameTextChanged(const QString&)));
-	connect(this, SIGNAL(ItemCountChanged()), SLOT(OnItemCountChanged()));
-	connect(ui->schema_combo_box, SIGNAL(currentTextChanged(const QString&)), this, SLOT(OnCurrentSchemaChanged(const QString&)));*/
 }
 
 // Destructor with ui object deleting
@@ -267,7 +254,7 @@ void BuilderWidget::InitCompleter()
 		return;
 	}
 
-	name_completer->Initialize(ui->type_combo_box->currentData(Qt::UserRole).toInt(), ui->schema_combo_box->currentText());
+	name_completer->Fetch(ui->type_combo_box->currentData(Qt::UserRole).toInt(), ui->schema_combo_box->currentText());
 	ui->name_edit->setCompleter(name_completer);
 }
 
@@ -436,7 +423,7 @@ void BuilderWidget::OnCurrentTypeChanged(int type)
 }
 
 // Handles current schema change
-void BuilderWidget::OnCurrentSchemaChanged(const QString& schema)
+void BuilderWidget::OnCurrentSchemaChanged(const QString &schema)
 {
 	InitCompleter();
 }
@@ -474,6 +461,7 @@ void BuilderWidget::OnItemCountChanged()
 void BuilderWidget::OnConnected()
 {
 	DatabaseProvider::InitSchemaListModel(*schema_list_model);
+	name_completer->Initialize();
 	InitCompleter();
 }
 
@@ -482,7 +470,7 @@ void BuilderWidget::OnConnected()
 void BuilderWidget::OnDisconnectionStarted()
 {
 	schema_list_model->clear();
-	name_completer->Clear();
+	name_completer->Finish();
 	ui->name_edit->setCompleter(nullptr);
 	ui->build_list_widget->clear();
 }

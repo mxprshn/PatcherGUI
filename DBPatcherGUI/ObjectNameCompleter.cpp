@@ -16,15 +16,24 @@ const QString ObjectNameCompleter::index_query = "SELECT DISTINCT indexname FROM
 // Constructor
 ObjectNameCompleter::ObjectNameCompleter(QObject *parent)
 	: QCompleter(parent)
-	, model(new QSqlQueryModel)
 {
-	setModel(model);
 	setCompletionRole(Qt::DisplayRole);
 	setCompletionMode(PopupCompletion);
 }
 
+void ObjectNameCompleter::Initialize()
+{
+	model = new QSqlQueryModel(this);
+	setModel(model);
+}
+
+void ObjectNameCompleter::Finish()
+{
+	delete model;
+}
+
 // Fills model with object name data got from database by type and schema
-void ObjectNameCompleter::Initialize(int type_index, const QString &schema)
+void ObjectNameCompleter::Fetch(int type_index, const QString &schema)
 {
 	QString query_text = "";
 
@@ -77,10 +86,4 @@ void ObjectNameCompleter::Initialize(int type_index, const QString &schema)
 void ObjectNameCompleter::Clear()
 {
 	model->clear();
-}
-
-// Destructor
-ObjectNameCompleter::~ObjectNameCompleter()
-{
-	delete model;
 }

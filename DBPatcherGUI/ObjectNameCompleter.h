@@ -11,9 +11,10 @@ class ObjectNameCompleter : public QCompleter
 
 public:
 	ObjectNameCompleter(QObject *parent = nullptr);
-	~ObjectNameCompleter();
-	void Initialize(int type_index, const QString &schema);
+	void Fetch(int type_index, const QString &schema);
 	void Clear();
+	void Initialize();
+	void Finish();
 private:
 	// Object list model
 	QSqlQueryModel *model;
