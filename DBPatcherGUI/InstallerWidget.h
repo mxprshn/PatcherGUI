@@ -22,19 +22,22 @@ private:
 	// Ui class is created in editor, and its elements are available through this pointer
 	Ui::InstallerWidget *ui;
 	// Directory of current patch
-	QDir patchDir;
+	QDir patch_dir;
 	// Flag showing if patch is opened
-	bool isPatchOpened;
-	bool initPatchList(const QString &path);
-	bool initDependencyList(const QString &path);
-	void clearCurrentPatch();
-	void setReadyToOpen();
-	bool checkConnection();
+	bool is_patch_opened;
+	bool InitPatchList(const QString &path);
+	bool InitDependencyList(const QString &path);
+	void ClearCurrentPatch();
+	void SetReadyToOpen();
+	bool CheckConnection();
+	bool StartDependencyCheck();
 signals:
-	void connectionRequested();
+	void ConnectionRequested();
+public slots:
+	void OnDisconnectionStarted();
 private slots:
-	void onOpenButtonClicked();
-	void onCheckButtonClicked();
-	void onInstallButtonClicked();
-	void onItemCheckChanged();
+	void OnOpenButtonClicked();
+	void OnCheckButtonClicked();
+	void OnInstallButtonClicked();
+	void OnItemCheckChanged();
 };

@@ -10,11 +10,12 @@ LoginWindow::LoginWindow(QWidget *parent)
 	, ui(new Ui::LoginWindow)
 {
 	ui->setupUi(this);
-	clear();
+	Clear();
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 
-	connect(ui->buttonBox, SIGNAL(accepted()), this, SIGNAL(connectButtonClicked()));
-	connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-	connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(clear()));
+	connect(ui->button_box, &QDialogButtonBox::accepted, this, &LoginWindow::ConnectButtonClicked);
+	connect(ui->button_box, &QDialogButtonBox::rejected, this, &LoginWindow::close);
+	connect(ui->button_box, &QDialogButtonBox::rejected, this, &LoginWindow::Clear);
 }
 
 // Destructor with ui object deleting
@@ -24,41 +25,42 @@ LoginWindow::~LoginWindow()
 }
 
 // Getter for host input
-QString LoginWindow::getHostInput() const
+QString LoginWindow::GetHostInput() const
 {
-	return ui->hostLineEdit->text();
+	return ui->host_line_edit->text();
 }
 
 // Getter for port input
-int LoginWindow::getPortInput() const
+int LoginWindow::GetPortInput() const
 {
-	return ui->portLineEdit->text().toInt();
+	return ui->port_line_edit->text().toInt();
 }
 
 // Getter for database name input
-QString LoginWindow::getDatabaseInput() const
+QString LoginWindow::GetDatabaseInput() const
 {
-	return ui->databaseLineEdit->text();
+	return ui->database_line_edit->text();
 }
 
 // Getter for username input
-QString LoginWindow::getUsernameInput() const
+QString LoginWindow::GetUsernameInput() const
 {
-	return ui->usernameLineEdit->text();
+	return ui->username_line_edit->text();
 }
 
 // Getter for password input
-QString LoginWindow::getPasswordInput() const
+QString LoginWindow::GetPasswordInput() const
 {
-	return ui->passwordLineEdit->text();
+	return ui->password_line_edit->text();
 }
 
 // Sets input lines to default state
-void LoginWindow::clear()
+void LoginWindow::Clear()
 {
-	ui->hostLineEdit->clear();
-	ui->portLineEdit->setText("5432");
-	ui->databaseLineEdit->clear();
-	ui->usernameLineEdit->clear();
-	ui->passwordLineEdit->clear();
+	ui->host_line_edit->clear();
+	ui->port_line_edit->setText("5432");
+	ui->database_line_edit->clear();
+	ui->username_line_edit->clear();
+	ui->password_line_edit->clear();
+	ui->host_line_edit->setFocus();
 }

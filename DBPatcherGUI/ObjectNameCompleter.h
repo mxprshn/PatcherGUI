@@ -4,24 +4,25 @@
 
 class QSqlQueryModel;
 
-// Class providing autocompletion of database object name input
+// Class providing auto-completion of database object name input
 class ObjectNameCompleter : public QCompleter
 {
 	Q_OBJECT
 
 public:
 	ObjectNameCompleter(QObject *parent = nullptr);
-	~ObjectNameCompleter();
-	void initialize(int typeIndex, const QString &schema);
-	void clear();
+	void Fetch(int type_index, const QString &schema);
+	void Clear();
+	void Initialize();
+	void Finish();
 private:
 	// Object list model
 	QSqlQueryModel *model;
 	// Queries for fetching object names from database
-	static const QString tableQuery;
-	static const QString sequenceQuery;
-	static const QString functionQuery;
-	static const QString viewQuery;
-	static const QString triggerQuery;
-	static const QString indexQuery;
+	static const QString table_query;
+	static const QString sequence_query;
+	static const QString function_query;
+	static const QString view_query;
+	static const QString trigger_query;
+	static const QString index_query;
 };

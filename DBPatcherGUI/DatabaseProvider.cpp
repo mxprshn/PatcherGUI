@@ -6,48 +6,48 @@
 #include <QSqlQueryModel>
 
 // Returns name of current database
-QString DatabaseProvider::database()
+QString DatabaseProvider::Database()
 {
-	return isConnected() ? QSqlDatabase::database().databaseName() : "";
+	return IsConnected() ? QSqlDatabase::database().databaseName() : "";
 }
 
 // Returns username of current database connection
-QString DatabaseProvider::user()
+QString DatabaseProvider::User()
 {
-	return isConnected() ? QSqlDatabase::database().userName() : "";
+	return IsConnected() ? QSqlDatabase::database().userName() : "";
 }
 
 // Returns password of current database connection
-QString DatabaseProvider::password()
+QString DatabaseProvider::Password()
 {
-	return isConnected() ? QSqlDatabase::database().password() : "";
+	return IsConnected() ? QSqlDatabase::database().password() : "";
 }
 
 // Returns host name of current database connection
-QString DatabaseProvider::host()
+QString DatabaseProvider::Host()
 {
-	return isConnected() ? QSqlDatabase::database().hostName() : "";
+	return IsConnected() ? QSqlDatabase::database().hostName() : "";
 }
 
 // Returns port of current database
-int DatabaseProvider::port()
+int DatabaseProvider::Port()
 {
-	return isConnected() ? QSqlDatabase::database().port() : -1;
+	return IsConnected() ? QSqlDatabase::database().port() : -1;
 }
 
 // Checks if connection to database is established
-bool DatabaseProvider::isConnected()
+bool DatabaseProvider::IsConnected()
 {
 	return QSqlDatabase::database(QSqlDatabase::database().connectionName(), false).isOpen();
 }
 
 // Connects to database and returns result of connection
-bool DatabaseProvider::connect(const QString &database, const QString &user, const QString &password,
-	const QString &server, const int port, QString &errorMessage)
+bool DatabaseProvider::Connect(const QString &database, const QString &user, const QString &password,
+	const QString &server, const int port, QString &error_message)
 {
-	if (isConnected())
+	if (IsConnected())
 	{
-		errorMessage = "Already connected.";
+		error_message = "Already connected.";
 		return false;
 	}
 
@@ -58,32 +58,32 @@ bool DatabaseProvider::connect(const QString &database, const QString &user, con
 	connection.setHostName(server);
 	connection.setPort(port);
 
-	const auto isConnectionSet = connection.open();
+	const auto is_connection_set = connection.open();
 
-	if (!isConnectionSet)
+	if (!is_connection_set)
 	{
-		errorMessage = connection.lastError().text();
+		error_message = connection.lastError().text();
 	}
 
-	return isConnectionSet;
+	return is_connection_set;
 }
 
 // Disconnects from database
-void DatabaseProvider::disconnect()
+void DatabaseProvider::Disconnect()
 {
-	const auto connectionName = QSqlDatabase::database().connectionName();
-	auto connection = QSqlDatabase::database(connectionName, false);
+	const auto connection_name = QSqlDatabase::database().connectionName();
+	auto connection = QSqlDatabase::database(connection_name, false);
 
 	if (connection.isOpen())
 	{
 		connection.close();
 	}
 
-	QSqlDatabase::removeDatabase(connectionName);
+	QSqlDatabase::removeDatabase(connection_name);
 }
 
 // Checks table for existence in database
-bool DatabaseProvider::tableExists(const QString &schema, const QString &name)
+bool DatabaseProvider::TableExists(const QString &schema, const QString &name)
 {
 	QSqlQuery check;
 	check.prepare("SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_schema = ? AND table_type != 'VIEW'"
@@ -96,7 +96,7 @@ bool DatabaseProvider::tableExists(const QString &schema, const QString &name)
 }
 
 // Checks sequence for existence in database
-bool DatabaseProvider::sequenceExists(const QString &schema, const QString &name)
+bool DatabaseProvider::SequenceExists(const QString &schema, const QString &name)
 {
 	QSqlQuery check;
 	check.prepare("SELECT EXISTS (SELECT * FROM information_schema.sequences WHERE sequence_schema = ?"
@@ -109,12 +109,12 @@ bool DatabaseProvider::sequenceExists(const QString &schema, const QString &name
 }
 
 // Checks function for existence in database
-bool DatabaseProvider::functionExists(const QString &schema, const QString &signature)
+bool DatabaseProvider::FunctionExists(const QString &schema, const QString &signature)
 {
 	QSqlQuery check;
 	check.prepare("SELECT EXISTS (SELECT * FROM information_schema.routines r, pg_catalog.pg_proc p WHERE"
-		" r.specific_schema = ? and r.routine_name||'('||COALESCE(array_to_string(p.proargnames, ',', '*'),'')||')' = ?"
-		" and r.external_language = 'PLPGSQL' and r.routine_name = p.proname and"
+		" r.specific_schema = ? AND r.routine_name||'('||COALESCE(array_to_string(p.proargnames, ',', '*'),'')||')' = ?"
+		" AND r.external_language = 'PLPGSQL' AND r.routine_name = p.proname AND"
 		" r.specific_name = p.proname || '_' || p.oid);");
 	check.addBindValue(schema);
 	check.addBindValue(signature);
@@ -124,7 +124,7 @@ bool DatabaseProvider::functionExists(const QString &schema, const QString &sign
 }
 
 // Checks view for existence in database
-bool DatabaseProvider::viewExists(const QString &schema, const QString &name)
+bool DatabaseProvider::ViewExists(const QString &schema, const QString &name)
 {
 	QSqlQuery check;
 	check.prepare("SELECT EXISTS (SELECT * FROM information_schema.views WHERE table_schema = ?"
@@ -137,7 +137,7 @@ bool DatabaseProvider::viewExists(const QString &schema, const QString &name)
 }
 
 // Checks trigger for existence in database
-bool DatabaseProvider::triggerExists(const QString &schema, const QString &name)
+bool DatabaseProvider::TriggerExists(const QString &schema, const QString &name)
 {
 	QSqlQuery check;
 	check.prepare("SELECT EXISTS (SELECT * FROM information_schema.triggers WHERE trigger_schema = ?"
@@ -150,10 +150,10 @@ bool DatabaseProvider::triggerExists(const QString &schema, const QString &name)
 }
 
 // Checks index for existence in database
-bool DatabaseProvider::indexExists(const QString &schema, const QString &name)
+bool DatabaseProvider::IndexExists(const QString &schema, const QString &name)
 {
 	QSqlQuery check;
-	check.prepare("SELECT EXISTS (SELECT * FROM pg_indexes WHERE schemaname = ? and indexname = ?);");
+	check.prepare("SELECT EXISTS (SELECT * FROM pg_indexes WHERE schemaname = ? AND indexname = ?);");
 	check.addBindValue(schema);
 	check.addBindValue(name);
 	check.exec();
@@ -162,7 +162,7 @@ bool DatabaseProvider::indexExists(const QString &schema, const QString &name)
 }
 
 // Initializes schema list with data from database
-void DatabaseProvider::initSchemaListModel(QSqlQueryModel &model)
+void DatabaseProvider::InitSchemaListModel(QSqlQueryModel &model)
 {
 	model.setQuery("SELECT schema_name FROM information_schema.schemata WHERE"
 		" schema_name NOT IN ('pg_catalog', 'information_schema') AND schema_name NOT LIKE 'pg_toast%' AND schema_name NOT LIKE 'pg_temp%';");

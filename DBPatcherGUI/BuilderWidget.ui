@@ -16,9 +16,9 @@
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
-  <layout class="QGridLayout" name="mainLayout" rowstretch="0,1,0,0">
+  <layout class="QGridLayout" name="main_layout" rowstretch="0,1,0,0">
    <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="addItemGroupBox">
+    <widget class="QGroupBox" name="add_item_group_box">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -34,7 +34,7 @@
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="addItemLayout" rowstretch="0,0">
+     <layout class="QGridLayout" name="add_item_layout" rowstretch="0,0">
       <property name="leftMargin">
        <number>7</number>
       </property>
@@ -54,7 +54,7 @@
        <number>3</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="typeLabel">
+       <widget class="QLabel" name="type_label">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -70,7 +70,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="schemaLabel">
+       <widget class="QLabel" name="schema_label">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -83,7 +83,7 @@
        </widget>
       </item>
       <item row="0" column="2" colspan="2">
-       <widget class="QLabel" name="nameLabel">
+       <widget class="QLabel" name="name_label">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -96,7 +96,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QComboBox" name="typeComboBox">
+       <widget class="QComboBox" name="type_combo_box">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>1</horstretch>
@@ -124,7 +124,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="schemaComboBox">
+       <widget class="QComboBox" name="schema_combo_box">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -152,7 +152,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLineEdit" name="nameEdit">
+       <widget class="QLineEdit" name="name_edit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>20</horstretch>
@@ -177,7 +177,7 @@
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QPushButton" name="addButton">
+       <widget class="QPushButton" name="add_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -227,7 +227,7 @@
     </widget>
    </item>
    <item row="1" column="0" rowspan="2" colspan="2">
-    <widget class="QGroupBox" name="buildListGroupBox">
+    <widget class="QGroupBox" name="build_list_group_box">
      <property name="title">
       <string>Patch List</string>
      </property>
@@ -237,7 +237,7 @@
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QHBoxLayout" name="buildListLayout">
+     <layout class="QHBoxLayout" name="build_list_layout">
       <property name="leftMargin">
        <number>7</number>
       </property>
@@ -251,15 +251,15 @@
        <number>3</number>
       </property>
       <item>
-       <widget class="PatchListWidget" name="buildListWidget"/>
+       <widget class="PatchListWidget" name="build_list_widget"/>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="listToolsLayout" stretch="0,0,0,0,0">
+       <layout class="QVBoxLayout" name="list_tools_layout" stretch="0,0,0,0,0">
         <property name="spacing">
          <number>3</number>
         </property>
         <item alignment="Qt::AlignTop">
-         <widget class="QToolButton" name="moveUpButton">
+         <widget class="QToolButton" name="move_up_button">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -309,7 +309,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignTop">
-         <widget class="QToolButton" name="moveDownButton">
+         <widget class="QToolButton" name="move_down_button">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -347,7 +347,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignTop">
-         <widget class="QToolButton" name="removeButton">
+         <widget class="QToolButton" name="remove_button">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -385,7 +385,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="clearButton">
+         <widget class="QToolButton" name="clear_button">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -420,7 +420,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer">
+         <spacer name="spacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -438,14 +438,14 @@
     </widget>
    </item>
    <item row="3" column="0" colspan="2">
-    <widget class="QGroupBox" name="buildPatchGroupBox">
+    <widget class="QGroupBox" name="build_patch_group_box">
      <property name="title">
       <string>Build Patch</string>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="buildPatchLayout">
+     <layout class="QGridLayout" name="build_patch_layout">
       <property name="leftMargin">
        <number>7</number>
       </property>
@@ -459,7 +459,7 @@
        <number>7</number>
       </property>
       <item row="0" column="2">
-       <widget class="QPushButton" name="buildButton">
+       <widget class="QPushButton" name="build_button">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -488,7 +488,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLineEdit" name="patchPathEdit">
+       <widget class="QLineEdit" name="patch_path_edit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -507,7 +507,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QToolButton" name="explorerButton">
+       <widget class="QToolButton" name="explorer_button">
         <property name="minimumSize">
          <size>
           <width>25</width>
@@ -519,6 +519,9 @@
           <width>25</width>
           <height>25</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Open in explorer...</string>
         </property>
         <property name="text">
          <string>...</string>
@@ -549,18 +552,18 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>typeComboBox</tabstop>
-  <tabstop>schemaComboBox</tabstop>
-  <tabstop>nameEdit</tabstop>
-  <tabstop>addButton</tabstop>
-  <tabstop>moveUpButton</tabstop>
-  <tabstop>moveDownButton</tabstop>
-  <tabstop>removeButton</tabstop>
-  <tabstop>clearButton</tabstop>
-  <tabstop>patchPathEdit</tabstop>
-  <tabstop>explorerButton</tabstop>
-  <tabstop>buildButton</tabstop>
-  <tabstop>buildListWidget</tabstop>
+  <tabstop>type_combo_box</tabstop>
+  <tabstop>schema_combo_box</tabstop>
+  <tabstop>name_edit</tabstop>
+  <tabstop>add_button</tabstop>
+  <tabstop>move_up_button</tabstop>
+  <tabstop>move_down_button</tabstop>
+  <tabstop>remove_button</tabstop>
+  <tabstop>clear_button</tabstop>
+  <tabstop>patch_path_edit</tabstop>
+  <tabstop>explorer_button</tabstop>
+  <tabstop>build_button</tabstop>
+  <tabstop>build_list_widget</tabstop>
  </tabstops>
  <resources>
   <include location="PatcherResources.qrc"/>

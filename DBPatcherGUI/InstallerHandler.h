@@ -13,14 +13,14 @@ class InstallerHandler : QObject
 
 public:
 	InstallerHandler() = delete;
-	static void setOutputDevice(QIODevice &newDevice);
-	static bool installPatch(const QString &database, const QString &user, const QString &password,
+	static void SetOutputDevice(QIODevice &new_device);
+	static bool InstallPatch(const QString &database, const QString &user, const QString &password,
 		const QString &server, int port, const QString &path);
-	static QBitArray checkDependencies(const QString &database, const QString &user, const QString &password,
-		const QString &server, int port, const QString &path, bool &isSuccessful);
+	static QBitArray CheckDependencies(const QString &database, const QString &user, const QString &password,
+		const QString &server, int port, const QString &path, bool &is_successful);
 private:
 	// Name of Installer module program file
 	const static QString program;
 	// Device for installer log output
-	static QIODevice *outputDevice;
+	static QIODevice *output_device;
 };

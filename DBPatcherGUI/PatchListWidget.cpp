@@ -4,15 +4,15 @@
 #include <QDropEvent>
 
 // Constructor
-PatchListWidget::PatchListWidget(QWidget *parent)
+PatchListWidget::PatchListWidget(QWidget* parent)
 	: QTreeWidget(parent)
 {
 	setColumnCount(3);
-	QStringList headerLabels;
-	headerLabels.insert(typeColumn, "Type");
-	headerLabels.insert(schemaColumn, "Schema");
-	headerLabels.insert(nameColumn, "Name");
-	setHeaderLabels(headerLabels);
+	QStringList header_labels;
+	header_labels.insert(type_column, "Type");
+	header_labels.insert(schema_column, "Schema");
+	header_labels.insert(name_column, "Name");
+	setHeaderLabels(header_labels);
 	setRootIsDecorated(false);
 	setSelectionMode(SingleSelection);
 	setDragEnabled(true);
@@ -22,13 +22,14 @@ PatchListWidget::PatchListWidget(QWidget *parent)
 }
 
 // Checks object for existence in the list
-bool PatchListWidget::itemExists(int typeIndex, const class QString &schema, const class QString &name)
+bool PatchListWidget::ItemExists(int type_index, const class QString& schema, const class QString& name)
 {
-	const auto foundItems = findItems(name, Qt::MatchFixedString, nameColumn);
+	const auto found_items = findItems(name, Qt::MatchFixedString, name_column);
 
-	for (const auto current : foundItems)
+	for (const auto current : found_items)
 	{
-		if (current->text(typeColumn) == ObjectTypes::typeNames.value(typeIndex) && current->text(schemaColumn) == schema)
+		if (current->text(type_column) == ObjectTypes::type_names.value(type_index) && current->text(schema_column) ==
+			schema)
 		{
 			return true;
 		}
@@ -38,31 +39,31 @@ bool PatchListWidget::itemExists(int typeIndex, const class QString &schema, con
 }
 
 // Adds a new object to list
-void PatchListWidget::add(int typeIndex, const class QString& schema, const class QString& name, bool isDraggable)
+void PatchListWidget::Add(int type_index, const class QString& schema, const class QString& name, bool is_draggable)
 {
-	auto *newItem = new QTreeWidgetItem(this);
+	auto* new_item = new QTreeWidgetItem(this);
 
-	newItem->setIcon(typeColumn, QIcon(ObjectTypes::typeIcons.value(typeIndex)));
-	newItem->setText(typeColumn, ObjectTypes::typeNames.value(typeIndex));
-	newItem->setData(typeColumn, Qt::UserRole, typeIndex);
-	newItem->setText(schemaColumn, schema);
-	newItem->setText(nameColumn, name);
+	new_item->setIcon(type_column, QIcon(ObjectTypes::type_icons.value(type_index)));
+	new_item->setText(type_column, ObjectTypes::type_names.value(type_index));
+	new_item->setData(type_column, Qt::UserRole, type_index);
+	new_item->setText(schema_column, schema);
+	new_item->setText(name_column, name);
 
-	if (isDraggable)
+	if (is_draggable)
 	{
-		newItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
+		new_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
 	}
 	else
 	{
-		newItem->setFlags(Qt::ItemIsEnabled);
+		new_item->setFlags(Qt::ItemIsEnabled);
 	}
 
-	addTopLevelItem(newItem);
-	scrollToItem(newItem);
+	addTopLevelItem(new_item);
+	scrollToItem(new_item);
 }
 
 // Handles drop of dragged object
-void PatchListWidget::dropEvent(QDropEvent *event)
+void PatchListWidget::dropEvent(QDropEvent* event)
 {
 	QTreeWidget::dropEvent(event);
 	setCurrentItem(itemAt(event->pos()));

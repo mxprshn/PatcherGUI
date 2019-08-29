@@ -1,10 +1,12 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QSettings>
 
 class QAction;
 class QLabel;
 class LoginWindow;
+class SettingsWindow;
 class LogOutputDevice;
 
 // Namespace required by Qt for loading .ui form file
@@ -26,19 +28,24 @@ private:
 	// Ui class is created in editor, and its elements are available through this pointer
 	Ui::MainWindow *ui;
 	// Device for log output
-	LogOutputDevice *logOutputDevice;
+	LogOutputDevice *log_output_device;
 	// Database information input dialog
-	LoginWindow *loginWindow;
+	LoginWindow *login_window;
 	// Actions shown in main menu
-	QAction *connectAction;
-	QAction *disconnectAction;
+	QAction *connect_action;
+	QAction *disconnect_action;
 	// Label showing connection information
-	QLabel *databaseInformation;
+	QLabel *database_information;
+	// Settings dialog
+	SettingsWindow *settings_window;
+	// Settings object
+	QSettings settings;
+	void ReadSettings();
 signals:
-	void connected();
-	void disconnectionStarted();
+	void Connected();
+	void DisconnectionStarted();
 private slots:
-	void onDialogConnectButtonClicked();
-	void onConnectionRequested();
-	void onDisconnectButtonClicked();
+	void OnDialogConnectButtonClicked();
+	void OnConnectionRequested();
+	void OnDisconnectButtonClicked();
 };
