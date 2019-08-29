@@ -46,7 +46,7 @@
      <property name="title">
       <string>Templates File Path</string>
      </property>
-     <layout class="QVBoxLayout" name="templates_layout">
+     <layout class="QHBoxLayout" name="templates_layout">
       <property name="topMargin">
        <number>7</number>
       </property>
@@ -54,7 +54,84 @@
        <number>11</number>
       </property>
       <item>
-       <widget class="QLineEdit" name="templates_edit"/>
+       <widget class="QLineEdit" name="templates_edit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>25</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="explorer_button">
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Open in explorer...</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="PatcherResources.qrc">
+          <normaloff>:/images/folder.svg</normaloff>:/images/folder.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>15</width>
+          <height>15</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="default_button">
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Set default value</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="PatcherResources.qrc">
+          <normaloff>:/images/reset.svg</normaloff>:/images/reset.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>15</width>
+          <height>15</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -82,6 +159,8 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="PatcherResources.qrc"/>
+ </resources>
  <connections/>
 </ui>

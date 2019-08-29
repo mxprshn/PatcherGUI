@@ -4,7 +4,7 @@
 
 class QSqlQueryModel;
 
-// Class providing autocompletion of database object name input
+// Class providing auto-completion of database object name input
 class ObjectNameCompleter : public QCompleter
 {
 	Q_OBJECT

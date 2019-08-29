@@ -261,7 +261,11 @@ void BuilderWidget::InitCompleter()
 // Handles open explorer button click
 void BuilderWidget::OnExplorerButtonClicked()
 {
-	ui->patch_path_edit->setText(QFileDialog::getExistingDirectory(this, "Choose build directory"));
+	const auto path_input = QFileDialog::getExistingDirectory(this, "Choose build directory");
+	if (!path_input.isEmpty())
+	{
+		ui->patch_path_edit->setText(path_input);
+	}
 }
 
 // Handles build button click, calls build method
@@ -473,6 +477,8 @@ void BuilderWidget::OnDisconnectionStarted()
 	name_completer->Finish();
 	ui->name_edit->setCompleter(nullptr);
 	ui->build_list_widget->clear();
+	ui->build_button->setDisabled(true);
+	ui->clear_button->setDisabled(true);
 }
 
 // Launches patch build

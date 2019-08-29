@@ -241,7 +241,7 @@ void InstallerWidget::OnCheckButtonClicked()
 		else
 		{
 			QMessageBox::information(this, "Verification completed"
-				, "Verification completed. All dependencies found. The patch can be installed safely ... almost safely :)"
+				, "Verification completed. All dependencies found. The patch can be installed safely... almost safely :)"
 				, QMessageBox::Ok, QMessageBox::Ok);
 		}
 	}

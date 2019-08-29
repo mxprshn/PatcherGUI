@@ -9,7 +9,6 @@ namespace Ui
 	class SettingsWindow;
 };
 
-
 // Class implementing dialog for settings editing
 class SettingsWindow : public QDialog
 {
@@ -24,4 +23,7 @@ private:
 	Ui::SettingsWindow *ui;
 signals:
 	void SaveButtonClicked();
+private slots:
+	void OnExplorerButtonClicked();
+	void OnDefaultButtonClicked();
 };

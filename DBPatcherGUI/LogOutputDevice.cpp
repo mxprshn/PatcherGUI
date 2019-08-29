@@ -17,13 +17,13 @@ void LogOutputDevice::SetTextEdit(QTextEdit *text_edit)
 	this->text_edit = text_edit;
 }
 
-// Reimplements QTextEdit reading virtual method
+// Re-implements QTextEdit reading virtual method
 qint64 LogOutputDevice::readData(char *data, qint64 maxlen)
 {
 	return 0;
 }
 
-// Reimplements QTextEdit writing virtual method
+// Re-implements QTextEdit writing virtual method
 qint64 LogOutputDevice::writeData(const char *data, qint64 len)
 {
 	if (text_edit)

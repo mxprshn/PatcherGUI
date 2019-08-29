@@ -16,17 +16,20 @@ const QString ObjectNameCompleter::index_query = "SELECT DISTINCT indexname FROM
 // Constructor
 ObjectNameCompleter::ObjectNameCompleter(QObject *parent)
 	: QCompleter(parent)
+	, model(nullptr)
 {
 	setCompletionRole(Qt::DisplayRole);
 	setCompletionMode(PopupCompletion);
 }
 
+// Initializes completer with a new model
 void ObjectNameCompleter::Initialize()
 {
 	model = new QSqlQueryModel(this);
 	setModel(model);
 }
 
+// Finishes completer usage by deleting current model
 void ObjectNameCompleter::Finish()
 {
 	delete model;

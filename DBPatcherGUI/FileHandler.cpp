@@ -114,7 +114,7 @@ PatchList FileHandler::ParseObjectList(const QString &path, bool &is_successful)
 	{
 		const QString read_string = input.readLine();
 
-		if (read_string.isEmpty())
+		if (QRegExp("( )*").exactMatch(read_string))
 		{
 			continue;
 		}
@@ -186,7 +186,7 @@ PatchList FileHandler::ParseDependencyList(const QString &path, bool &is_success
 	{
 		const QString read_string = input.readLine();
 
-		if (read_string.isEmpty())
+		if (QRegExp("( )*").exactMatch(read_string))
 		{
 			continue;
 		}
