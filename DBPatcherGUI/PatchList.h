@@ -12,13 +12,13 @@ public:
 	~PatchList();
 	PatchList(const PatchList &other);
 	PatchList& operator=(const PatchList &other);
-	void add(int typeIndex, const QString &schemaName, const QString &name, const QStringList &parameters = {});
-	int count() const;
+	void Add(int type_index, const QString &schema_name, const QString &name, const QStringList &parameters = {});
+	int Count() const;
 	QList<PatchListElement*>::const_iterator begin() const;
 	QList<PatchListElement*>::const_iterator end() const;
-	void clear();
+	void Clear();
 private:
-	void swap(PatchList &other);
+	void Swap(PatchList &other);
 	// Internal storage of database objects
 	QList<PatchListElement*> *elements;
 };

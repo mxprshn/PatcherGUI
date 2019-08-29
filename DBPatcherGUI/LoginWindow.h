@@ -17,17 +17,17 @@ public:
 
 	LoginWindow(QWidget *parent = nullptr);
 	~LoginWindow();
-	QString getHostInput() const;
-	int getPortInput() const;
-	QString getDatabaseInput() const;
-	QString getUsernameInput() const;
-	QString getPasswordInput() const;
+	QString GetHostInput() const;
+	int GetPortInput() const;
+	QString GetDatabaseInput() const;
+	QString GetUsernameInput() const;
+	QString GetPasswordInput() const;
 private:
 	// Pointer to ui object required by Qt for loading .ui form file
 	// Ui class is created in editor, and its elements are available through this pointer
 	Ui::LoginWindow *ui;
 signals:
-	void connectButtonClicked();
+	void ConnectButtonClicked();
 public slots:
-	void clear();
+	void Clear();
 };

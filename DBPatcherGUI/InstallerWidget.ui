@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>865</width>
+    <width>761</width>
     <height>688</height>
    </rect>
   </property>
@@ -16,16 +16,16 @@
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
-  <layout class="QGridLayout" name="mainLayout" rowstretch="0,1" columnstretch="1,1">
+  <layout class="QGridLayout" name="main_layout" rowstretch="0,1" columnstretch="1,1">
    <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="openPatchGroupBox">
+    <widget class="QGroupBox" name="open_patch_group_box">
      <property name="title">
       <string>Open Patch</string>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="openPatchLayout" rowstretch="0,0">
+     <layout class="QGridLayout" name="open_patch_layout" rowstretch="0,0">
       <property name="leftMargin">
        <number>7</number>
       </property>
@@ -42,14 +42,14 @@
        <number>3</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="pathLabel">
+       <widget class="QLabel" name="path_label">
         <property name="text">
          <string>Path</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLineEdit" name="patchPathEdit">
+       <widget class="QLineEdit" name="patch_path_edit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -68,7 +68,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QPushButton" name="openPatchButton">
+       <widget class="QPushButton" name="open_patch_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -100,14 +100,14 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QGroupBox" name="dependenciesGroupBox">
+    <widget class="QGroupBox" name="dependencies_group_box">
      <property name="title">
       <string>Dependencies</string>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QVBoxLayout" name="dependenciesLayout">
+     <layout class="QVBoxLayout" name="dependencies_layout">
       <property name="leftMargin">
        <number>7</number>
       </property>
@@ -121,10 +121,10 @@
        <number>3</number>
       </property>
       <item>
-       <widget class="DependencyListWidget" name="dependencyListWidget"/>
+       <widget class="DependencyListWidget" name="dependency_list_widget"/>
       </item>
       <item alignment="Qt::AlignRight">
-       <widget class="QPushButton" name="checkButton">
+       <widget class="QPushButton" name="check_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -162,14 +162,14 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QGroupBox" name="patchListGroupBox">
+    <widget class="QGroupBox" name="patch_list_group_box">
      <property name="title">
       <string>Patch Objects</string>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QVBoxLayout" name="patchContentLayout">
+     <layout class="QVBoxLayout" name="patch_objects_layout">
       <property name="leftMargin">
        <number>7</number>
       </property>
@@ -183,10 +183,10 @@
        <number>3</number>
       </property>
       <item>
-       <widget class="PatchListWidget" name="patchListWidget"/>
+       <widget class="PatchListWidget" name="patch_list_widget"/>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="installButtonLayout">
+       <layout class="QHBoxLayout" name="install_button_layout">
         <property name="spacing">
          <number>7</number>
         </property>
@@ -194,7 +194,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="installInfoLabel">
+         <widget class="QLabel" name="install_info_label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>1</horstretch>
@@ -212,8 +212,8 @@
           </property>
          </widget>
         </item>
-        <item alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="installButton">
+        <item alignment="Qt::AlignRight|Qt::AlignBottom">
+         <widget class="QPushButton" name="install_button">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -268,12 +268,12 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>patchPathEdit</tabstop>
-  <tabstop>openPatchButton</tabstop>
-  <tabstop>checkButton</tabstop>
-  <tabstop>installButton</tabstop>
-  <tabstop>dependencyListWidget</tabstop>
-  <tabstop>patchListWidget</tabstop>
+  <tabstop>patch_path_edit</tabstop>
+  <tabstop>open_patch_button</tabstop>
+  <tabstop>check_button</tabstop>
+  <tabstop>install_button</tabstop>
+  <tabstop>dependency_list_widget</tabstop>
+  <tabstop>patch_list_widget</tabstop>
  </tabstops>
  <resources>
   <include location="PatcherResources.qrc"/>

@@ -24,30 +24,31 @@ private:
 	// Ui class is created in editor, and its elements are available through this pointer
 	Ui::BuilderWidget *ui;
 	// Pointer to the schema list model, which can be filled with query execution
-	QSqlQueryModel *schemaListModel;
-	// Completer object which provides autocompletion of object name user's input 
-	ObjectNameCompleter *nameCompleter;
-	void addScripts(const QString &input);
-	bool checkConnection();
-	void initScriptInput();
-	void initCompleter();
-	bool startPatchBuild(const QString &path);
+	QSqlQueryModel *schema_list_model;
+	// Completer object which provides auto-completion of object name user's input
+	ObjectNameCompleter *name_completer;
+	void AddScripts(const QString &input);
+	bool CheckConnection();
+	void InitScriptInput();
+	void InitCompleter();
+	bool StartPatchBuild(const QString &path);
 signals:
-	void connectionRequested();
-	void itemCountChanged();
+	void ConnectionRequested();
+	void ItemCountChanged();
+public slots:
+	void OnConnected();
+	void OnDisconnectionStarted();
 private slots:
-	void onAddButtonClicked();
-	void onBuildButtonClicked();
-	void onExplorerButtonClicked();
-	void onMoveUpButtonClicked();
-	void onMoveDownButtonClicked();
-	void onRemoveButtonClicked();
-	void onClearButtonClicked();
-	void onItemSelectionChanged();
-	void onCurrentTypeChanged(int type);
-	void onCurrentSchemaChanged(const QString &schema);
-	void onNameTextChanged(const QString &input);
-	void onItemCountChanged();
-	void onConnected();
-	void onDisconnectionStarted();
+	void OnAddButtonClicked();
+	void OnBuildButtonClicked();
+	void OnExplorerButtonClicked();
+	void OnMoveUpButtonClicked();
+	void OnMoveDownButtonClicked();
+	void OnRemoveButtonClicked();
+	void OnClearButtonClicked();
+	void OnItemSelectionChanged();
+	void OnCurrentTypeChanged(int type);
+	void OnCurrentSchemaChanged(const QString &schema);
+	void OnNameTextChanged(const QString &input);
+	void OnItemCountChanged();
 };

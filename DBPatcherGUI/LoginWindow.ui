@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>LoginWindow</class>
  <widget class="QDialog" name="LoginWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -41,9 +44,9 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="mainLayout" stretch="1,1,2,0">
+  <layout class="QVBoxLayout" name="main_layout" stretch="1,1,2,0">
    <item>
-    <spacer name="verticalSpacer_2">
+    <spacer name="vertical_spacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -56,17 +59,17 @@
     </spacer>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QFormLayout" name="form_layout">
      <item row="0" column="0">
-      <widget class="QLabel" name="hostLabel">
+      <widget class="QLabel" name="host_label">
        <property name="text">
         <string>Host:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QWidget" name="hostWidget" native="true">
-       <layout class="QHBoxLayout" name="hostLayout">
+      <widget class="QWidget" name="host_widget" native="true">
+       <layout class="QHBoxLayout" name="host_layout">
         <property name="spacing">
          <number>7</number>
         </property>
@@ -83,7 +86,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="hostLineEdit">
+         <widget class="QLineEdit" name="host_line_edit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>5</horstretch>
@@ -99,7 +102,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="portLabel">
+         <widget class="QLabel" name="port_label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -112,7 +115,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="portLineEdit">
+         <widget class="QLineEdit" name="port_line_edit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>1</horstretch>
@@ -131,34 +134,34 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="databaseLabel">
+      <widget class="QLabel" name="database_label">
        <property name="text">
         <string>Database:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="databaseLineEdit"/>
+      <widget class="QLineEdit" name="database_line_edit"/>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="usernameLabel">
+      <widget class="QLabel" name="username_label">
        <property name="text">
         <string>Username:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="usernameLineEdit"/>
+      <widget class="QLineEdit" name="username_line_edit"/>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="passwordLabel">
+      <widget class="QLabel" name="password_label">
        <property name="text">
         <string>Password:</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="passwordLineEdit">
+      <widget class="QLineEdit" name="password_line_edit">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
@@ -167,7 +170,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="vertical_spacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -183,7 +186,7 @@
     </spacer>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="button_box">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -199,11 +202,11 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>hostLineEdit</tabstop>
-  <tabstop>portLineEdit</tabstop>
-  <tabstop>databaseLineEdit</tabstop>
-  <tabstop>usernameLineEdit</tabstop>
-  <tabstop>passwordLineEdit</tabstop>
+  <tabstop>host_line_edit</tabstop>
+  <tabstop>port_line_edit</tabstop>
+  <tabstop>database_line_edit</tabstop>
+  <tabstop>username_line_edit</tabstop>
+  <tabstop>password_line_edit</tabstop>
  </tabstops>
  <resources>
   <include location="PatcherResources.qrc"/>
