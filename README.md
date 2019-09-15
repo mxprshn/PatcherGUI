@@ -33,4 +33,4 @@ patch objects themselves ("Patch Objects", on the right).
 To enable installation, you should firstly launch dependency check process by clicking the "Check" button. When it is finished, you can see how
 the warning icons in dependency list are replaced with checks (for found dependencies) or crosses (otherwise). As it is significant to pay the user's
 attention to the unsatisfied dependencies, installation can be launched only after he marks all the objects in the dependency list manually (satisfied
-dependencies are marked automatically). When it is done, the "Install" will be enabled.
+dependencies are marked automatically). When it is done, the "Install" button will be enabled.
