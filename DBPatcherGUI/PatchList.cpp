@@ -27,25 +27,25 @@ PatchList& PatchList::operator=(const PatchList &other)
 {
 	if (this != &other)
 	{
-		PatchList(other).swap(*this);
+		PatchList(other).Swap(*this);
 	}
 	return *this;
 }
 
 // Swap method used in assignment operator implementation
-void PatchList::swap(PatchList &other)
+void PatchList::Swap(PatchList &other)
 {
 	std::swap(elements, other.elements);
 }
 
 // Adds a new object to the list
-void PatchList::add(int typeIndex, const QString &schemaName, const QString &name, const QStringList &parameters)
+void PatchList::Add(int type_index, const QString &schema_name, const QString &name, const QStringList &parameters)
 {	
-	elements->append(new PatchListElement(typeIndex, name, schemaName, parameters));
+	elements->append(new PatchListElement(type_index, name, schema_name, parameters));
 }
 
 // Returns amount of objects in the list
-int PatchList::count() const
+int PatchList::Count() const
 {
 	return elements->count();
 }
@@ -62,7 +62,7 @@ QList<class PatchListElement*>::const_iterator PatchList::end() const
 }
 
 // Clears the list
-void PatchList::clear()
+void PatchList::Clear()
 {
 	for (const auto current : *elements)
 	{
@@ -75,6 +75,6 @@ void PatchList::clear()
 // Destructor
 PatchList::~PatchList()
 {
-	clear();
+	Clear();
 	delete elements;
 }

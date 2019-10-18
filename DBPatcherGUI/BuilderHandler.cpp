@@ -4,50 +4,54 @@
 #include <QIODevice>
 
 const QString BuilderHandler::program = "PatchBuilder_exe.exe";
-const QString BuilderHandler::templatesPath = "Templates.ini";
-QIODevice *BuilderHandler::outputDevice = nullptr;
+QString BuilderHandler::templates_path = "Templates.ini";
+QIODevice *BuilderHandler::output_device = nullptr;
 
 // Sets new log output device
-void BuilderHandler::setOutputDevice(QIODevice &newDevice)
+void BuilderHandler::SetOutputDevice(QIODevice &new_device)
 {
-	outputDevice = &newDevice;
+	output_device = &new_device;
+}
+
+void BuilderHandler::SetTemplatesFile(const QString &path)
+{
+	templates_path = path;
 }
 
 // Launches and manages Builder process
 // Returns result of patch build
-bool BuilderHandler::buildPatch(const QString& database, const QString& user, const QString& password
-	, const QString& server, int port, const QString &patchDir, const QString &buildListDir)
+bool BuilderHandler::BuildPatch(const QString& database, const QString& user, const QString& password
+	, const QString& server, int port, const QString &patch_dir, const QString &build_list_dir)
 {
-	const auto connectionInfo = QString("%1:%2:%3:%4:%5").arg(database).arg(user).arg(password).arg(server)
-		.arg(port);
-	const QStringList arguments = { "-d", patchDir, "-p", buildListDir, "-c", connectionInfo, "-t", templatesPath };
+	const auto connection_info = QString("%1:%2:%3:%4:%5").arg(server).arg(port).arg(database).arg(user).arg(password);
+	const QStringList arguments = { "-d", patch_dir, "-p", build_list_dir, "-c", connection_info, "-t", templates_path };
 
-	QProcess builderProcess;
+	QProcess builder_process;
 
-	connect(&builderProcess, &QProcess::readyReadStandardOutput, [&builderProcess]()
+	connect(&builder_process, &QProcess::readyReadStandardOutput, [&builder_process]()
 	{
-		if (outputDevice)
+		if (output_device)
 		{
-			outputDevice->write(builderProcess.readAllStandardOutput());
+			output_device->write(builder_process.readAllStandardOutput());
 		}
 	});
 
-	connect(&builderProcess, &QProcess::readyReadStandardError, [&builderProcess]()
+	connect(&builder_process, &QProcess::readyReadStandardError, [&builder_process]()
 	{
-		if (outputDevice)
+		if (output_device)
 		{
-			outputDevice->write(builderProcess.readAllStandardError());
+			output_device->write(builder_process.readAllStandardError());
 		}
 	});
 
-	builderProcess.start(program, arguments);
+	builder_process.start(program, arguments);
 
-	if (!builderProcess.waitForStarted())
+	if (!builder_process.waitForStarted())
 	{
 		return false;
 	}
 
-	if (!builderProcess.waitForFinished() || builderProcess.exitCode() != 0)
+	if (!builder_process.waitForFinished() || builder_process.exitCode() != 0)
 	{
 		return false;
 	}

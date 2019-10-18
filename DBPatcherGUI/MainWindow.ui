@@ -26,8 +26,8 @@
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="mainLayout" stretch="0">
+  <widget class="QWidget" name="central_widget">
+   <layout class="QVBoxLayout" name="main_layout" stretch="0">
     <property name="spacing">
      <number>7</number>
     </property>
@@ -44,7 +44,7 @@
      <number>3</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tab_widget">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -75,7 +75,7 @@
       <property name="tabBarAutoHide">
        <bool>false</bool>
       </property>
-      <widget class="BuilderWidget" name="builderTab">
+      <widget class="BuilderWidget" name="builder_tab">
        <attribute name="icon">
         <iconset resource="PatcherResources.qrc">
          <normaloff>:/images/hammer.svg</normaloff>:/images/hammer.svg</iconset>
@@ -84,7 +84,7 @@
         <string>Build</string>
        </attribute>
       </widget>
-      <widget class="InstallerWidget" name="installerTab">
+      <widget class="InstallerWidget" name="installer_tab">
        <attribute name="icon">
         <iconset resource="PatcherResources.qrc">
          <normaloff>:/images/install.svg</normaloff>:/images/install.svg</iconset>
@@ -97,29 +97,29 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QMenuBar" name="menu_bar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>902</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="databaseMenu">
+   <widget class="QMenu" name="database_menu">
     <property name="title">
      <string>Database</string>
     </property>
    </widget>
-   <widget class="QMenu" name="viewMenu">
+   <widget class="QMenu" name="view_menu">
     <property name="title">
      <string>View</string>
     </property>
    </widget>
-   <addaction name="databaseMenu"/>
-   <addaction name="viewMenu"/>
+   <addaction name="database_menu"/>
+   <addaction name="view_menu"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QToolBar" name="main_tool_bar">
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -133,12 +133,7 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="sizeGripEnabled">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QDockWidget" name="logDockWidget">
+  <widget class="QDockWidget" name="log_dock_widget">
    <property name="floating">
     <bool>false</bool>
    </property>
@@ -154,8 +149,8 @@
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="logDockWidgetContents">
-    <layout class="QVBoxLayout" name="logDockLayout">
+   <widget class="QWidget" name="log_dock_widget_contents">
+    <layout class="QVBoxLayout" name="log_dock_layout">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -172,7 +167,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QTextEdit" name="logTextEdit">
+      <widget class="QTextEdit" name="log_text_edit">
        <property name="font">
         <font>
          <family>Consolas</family>

@@ -24,5 +24,6 @@
         <file alias="close.svg">Resources/images/close.svg</file>
         <file alias="clearList.svg">Resources/images/clearList.svg</file>
         <file alias="mainIcon.svg">Resources/images/mainIcon.svg</file>
+        <file alias="reset.svg">Resources/images/reset.svg</file>
     </qresource>
 </RCC>

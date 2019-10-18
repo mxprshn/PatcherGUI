@@ -10,19 +10,20 @@ class FileHandler
 {
 public:
 	FileHandler() = delete;
-	static QDir makePatchDir(const QString &path, bool &isSuccessful);
-	static bool makePatchList(const QString &path, const PatchList &patchList);
-	static PatchList parseObjectList(const QString &path, bool &isSuccessful);
-	static PatchList parseDependencyList(const QString &path, bool &isSuccessful);
-	static QString getPatchListName();
-	static QString getDependencyListName();
-	static QString getObjectListName();
+	static QDir MakePatchDir(const QString &path, bool &is_successful);
+	static bool MakePatchList(const QString &path, const PatchList &patch_list);
+	static bool MakeDependencyList(const QString &path, const PatchList &dependency_list);
+	static PatchList ParseObjectList(const QString &path, bool &is_successful);
+	static PatchList ParseDependencyList(const QString &path, bool &is_successful);
+	static QString GetPatchListName();
+	static QString GetDependencyListName();
+	static QString GetObjectListName();
 private:
 	// Name of patch list file, which is created from gui
-	static const QString patchListName;
+	static const QString patch_list_name;
 	// Name of dependency list file which is created by Builder module
-	static const QString dependencyListName;
+	static const QString dependency_list_name;
 	// Name of patch object list file which is created by Builder module
-	static const QString objectListName;
-	static QString getParametersString(const QStringList &parameters);
+	static const QString object_list_name;
+	static QString GetParametersString(const QStringList &parameters);
 };
